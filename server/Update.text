@@ -1,0 +1,47 @@
+In Student Ideation Form
+Add these fields
+City   vc(100)
+State  vc(100)
+Country  vc(100)
+             Interested in Annual Membership    c(10)  Yes, No
+              Interested in  Research   
+ We will wish to build more awareness about your startup spin and connect you to investor, incubator and accelerators. By selecting this option, you give consent for us to send you information in form of news letter,  whatsapp and sms and also include your name and photo in our website if needed
+
+In  Research Form
+Add these fields
+City   vc(100)
+State  vc(100)
+Country  vc(100)
+             Interested in Annual Membership   
+              Interested in  Startup
+ We will wish to build more awareness about your startup spin and connect you to investor, incubator and accelerators. By selecting this option, you give consent for us to send you information in form of news letter,  whatsapp and sms and also include your name and photo in our website if needed
+
+
+ 
+
+Member form
+Add these fields
+Organization Name
+Designation / Role
+Country
+             Interested in Annual Membership    c(10)  Yes, No
+              Interested in  Research   
+              Interested in Startup
+             Interested in getting investments
+             Interested in Mentoring
+ We will wish to build more awareness about your startup spin and connect you to investor, incubator and accelerators. By selecting this option, you give consent for us to send you information in form of news letter,  whatsapp and sms and also include your name and photo in our website if needed
+
+Member Group  should show popup from Member Group Master
+membergroupmaster
+Groupcode                   c(40)
+Groupname                vc(100)
+Groupdescription      vc(999)
+Same for Membertype  and Membercategory
+
+dateofregistration
+Add fields memberfrequency member_status, from_dt, to_dt
+
+//////////
+git remote add origin https://github.com/JadhavHemant/TimeSheet.git
+git branch -M main
+git push -u origin main
