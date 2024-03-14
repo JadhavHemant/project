@@ -17,6 +17,7 @@ const UserCommon = () => {
                   <Link to="ideation">Ideation</Link>
                   <Link to="research">Research</Link>
                   <Link to="oppo">Eol</Link>
+                  <Link to="applyed">Applicatons</Link>
                   <Link to="/">Log-Out</Link>
                 </div>
               </div>
@@ -44,6 +45,7 @@ const UserCommon = () => {
                 <Link to="ideation">Ideation</Link>
                 <Link to="research">Research</Link>
                 <Link to="oppo">Eol</Link>
+                <Link to="applyed">Applicatons</Link>
                 <Link to="/">Log-Out</Link>
               </div>
             </div>
@@ -53,6 +55,9 @@ const UserCommon = () => {
       </div>
 
       <Link to="createoppo"></Link>
+      <Link to="viewint"></Link>
+      <Link to="selectionStatus"></Link>
+      
       {/* <div>
         <Link to="viewmember"></Link>
         <Link to="addmember"></Link>

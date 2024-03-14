@@ -15,7 +15,7 @@ app.use(cors());
 const pool = new Pool({
   user: "postgres",
   host: "localhost",
-  password: "@hemant",
+  password: "postgres",
   database: "studentinfo",
   port: 5432,
 });
@@ -1429,6 +1429,7 @@ function sendUpdateEmail(user) {
 
 
 
+
 // delete endpoint
 app.delete('/api/members/:id', async (req, res) => {
   const id = req.params.id;
@@ -1624,12 +1625,12 @@ app.get('/api/interestedpeople', async (req, res) => {
 
 // POST API to add a new interested person
 app.post('/api/interestedpeople', async (req, res) => {
-  const { interested_name, email, phoneNumber, interest_id, opportunity_id,opportunity_name  } = req.body;
+  const { interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email,  } = req.body;
   try {
     const client = await pool.connect();
     const result = await client.query(
-      'INSERT INTO interested_people_table (interested_name, email, phoneNumber, interest_id, opportunity_id,opportunity_name ) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *',
-      [interested_name, email, phoneNumber, interest_id, opportunity_id,opportunity_name ]
+      'INSERT INTO interested_people_table (interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email ) VALUES ($1, $2, $3, $4, $5,$6,$7,$8) RETURNING *',
+      [interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email ]
     );
     client.release();
     res.status(201).json(result.rows[0]);
@@ -1638,6 +1639,109 @@ app.post('/api/interestedpeople', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+///////////////////////////////////////////
+// DELETE endpoint to remove an opportunity by ID
+app.delete('/api/delete/interested/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const client = await pool.connect();
+    const result = await client.query('DELETE FROM interested_people_table WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Opportunity not found' });
+    } else {
+      const deletedOpportunity = result.rows[0];
+      client.release();
+      res.json(deletedOpportunity);
+    }
+  } catch (error) {
+    console.error('Error deleting opportunity', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//////////////////////////////////////////
+app.get('/api/selection_status/result/:flagValue', async (req, res) => {
+  const { flagValue } = req.params; // Access the flag value from URL path parameter
+
+  try {
+    const client = await pool.connect();
+    let result;
+
+    if (flagValue === 'true' || flagValue === 'false') {
+      result = await client.query('SELECT * FROM selection_table WHERE flag = $1', [flagValue]);
+    } else {
+      result = await client.query('SELECT * FROM selection_table');
+    }
+
+    client.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+////////////////////////////////
+app.post('/api/selection_status/result', async (req, res) => {
+  const {applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid} = req.body;
+  try {
+    const client = await pool.connect();
+    const result = await client.query('INSERT INTO selection_table (applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid ) VALUES ($1, $2, $3,$4,$5,$6,$7) RETURNING *',[applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid] );
+    client.release();
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error adding :', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+  ///////////////////
+  app.get('/api/selection_status/result/:memberid', async (req, res) => {
+    const { memberid } = req.params;
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM selection_table WHERE memberid = $1', [memberid]);
+      client.release();
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error('Error retrieving data:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+/////////////////////////////////////////
+app.get('/api/selection_status/result', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM selection_table');
+    client.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// //////////////////////////////////////
+app.get('/api/memberidoppodata/intre/:id', async (req, res) => {
+  const memberid = req.params.id;
+
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM interested_people_table WHERE memberid = $1', [memberid]);
+    client.release();
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Data not found' });
+    } else {
+      const opportunityDetails = result.rows;
+      res.json(opportunityDetails);
+    }
+  } catch (error) {
+    console.error('Error fetching data details from database', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // ///////////////////////////////////////////////////////
 // GET API to retrieve all opportunity types
 app.get('/api/opportunity_types', async (req, res) => {
@@ -1830,16 +1934,16 @@ updateOpportunityStatus();
 setInterval(updateOpportunityStatus, 3600000);
 
 
-///////////////////////////////////////
-const currentDate = new Date().toISOString(); 
+const currentDate = new Date(); // Create a Date object representing the current date
 app.get('/api/opportunity/date-gap/:gap', async (req, res) => {
   const { gap } = req.params;
 
   try {
+    const endDate = new Date(currentDate.getTime() + (gap * 24 * 60 * 60 * 1000));
     const client = await pool.connect();
     const result = await client.query(
       `SELECT * FROM Opportunities WHERE opportunity_start_date >= $1 AND opportunity_start_date <= $2`,
-      [currentDate, new Date(currentDate.getTime() + (gap * 24 * 60 * 60 * 1000)).toISOString()]
+      [currentDate.toISOString(), endDate.toISOString()]
     );
     client.release();
     const Gaps = result.rows;
@@ -2018,7 +2122,6 @@ app.get('/api/opportunity/:id', async (req, res) => {
   }
 });
 
-// Define a POST endpoint to send emails
 app.post('/send-email', async (req, res) => {
   const { selectedOpportunities, recipientEmails } = req.body;
   if (!Array.isArray(recipientEmails)) {
@@ -2036,19 +2139,22 @@ app.post('/send-email', async (req, res) => {
   });
 
   try {
-    for (const opportunity of selectedOpportunities) {
-      let mailOptions = {
-        from: 'jadhavhemantbalkrushna@gmail.com', 
-        to: recipientEmails.join(','), 
-        cc: 'hemantjadhav7477@gmail.com',
-        subject: 'Opportunity', 
-        text: `Dear Member, user has expressed interest in ${opportunity.name} for details log on to site Thanks pcombinator and passionit team`, 
-      };
+    let text = 'Dear Member,\n\n';
+    selectedOpportunities.forEach((opportunity, index) => {
+      text += `${index + 1}. ${opportunity.name}\n`;
+    });
+    text += '\nFor details, please log on to our site.\n\nThanks,\nThe pcombinator and passionit team';
 
-      // Send email for the current opportunity
-      let info = await transporter.sendMail(mailOptions);
-      console.log('Email sent:', info.response);
-    }
+    let mailOptions = {
+      from: 'jadhavhemantbalkrushna@gmail.com', 
+      to: recipientEmails.join(','), 
+      subject: 'Opportunity', 
+      text: text
+    };
+
+    // Send email for all selected opportunities
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.response);
 
     res.status(200).json({ message: 'Emails sent successfully' });
   } catch (error) {
@@ -2056,7 +2162,6 @@ app.post('/send-email', async (req, res) => {
     res.status(500).json({ error: 'Error sending emails' });
   }
 });
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET endpoint to retrieve all Opportunity_Allocation records

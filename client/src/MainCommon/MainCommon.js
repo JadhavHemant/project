@@ -49,6 +49,9 @@ import ResearchRef from '../MemberLogin/Infotect/User/Research/ResearchRef';
 import Opportunity from '../MemberLogin/Infotect/User/Opportunity/Opportunity';
 import IntrestOppor from '../MemberLogin/AdminPanel/Interest/IntrestOppor';
 import CreateOpportunity from '../MemberLogin/Infotect/User/Opportunity/CreateOpportunity';
+import EolDataView from '../MemberLogin/Infotect/User/EolDataView/EolDataView';
+import SelectionStatus from '../MemberLogin/Infotect/User/EolDataView/SelectionStatus';
+import Applyed from '../MemberLogin/Infotect/User/Opportunity/Applyed/Applyed';
 
 
 
@@ -66,6 +69,9 @@ const MainCommon = () => {
                      <Route path='researchref' element={<ResearchRef />} />
                      <Route path='oppo' element={<Opportunity />} />
                      <Route path='createoppo' element={<CreateOpportunity />} />
+                     <Route path='viewint' element={<EolDataView />} />
+                     <Route path='selectionStatus' element={<SelectionStatus/>} />
+                     <Route path='applyed' element={<Applyed/>} />
                   </Route>
 
 

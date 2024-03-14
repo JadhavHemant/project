@@ -79,7 +79,7 @@ const [memail, setMEmail] = useState('');
   const GetMemberData=()=>{
     const userId = localStorage.getItem("user_id");
     axios({
-      url: `http://localhost:3001/api/members/${userId}`,
+      url: `/api/members/${userId}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res)=>{

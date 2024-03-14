@@ -10,7 +10,6 @@ const Opportunity = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [checkboxStates, setCheckboxStates] = useState({});
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
-  const [firstmail, setMEmail] = useState('');
   const [member_id, setMemberId] = useState([]);
   console.log(member_id)
 
@@ -41,10 +40,10 @@ const Opportunity = () => {
 
   useEffect(() => {
     Calling();
-  },[]);
+  }, []);
 
 
-  const Calling=()=>{
+  const Calling = () => {
     getOpporu();
     getOppor();
     scrollFirstHighlightIntoView();
@@ -54,7 +53,7 @@ const Opportunity = () => {
   }
   const getOpportunityTypes = () => {
     axios({
-      url: 'http://localhost:3001/api/opportunity_types',
+      url: '/api/opportunity_types',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -69,7 +68,7 @@ const Opportunity = () => {
 
   const getOppor = () => {
     axios({
-      url: 'http://localhost:3001/api/opportunity',
+      url: '/api/opportunity',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -97,7 +96,7 @@ const Opportunity = () => {
 
   const getOpportunityNames = (id) => {
     axios({
-      url: `http://localhost:3001/api/opportunitys/${id}`,
+      url: `/api/opportunitys/${id}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -111,7 +110,7 @@ const Opportunity = () => {
 
   const DateFilter = () => {
     axios({
-      url: `http://localhost:3001/api/opportunity/date-gap/${7}}`,
+      url: `/api/opportunity/date-gap/${7}}`,
       method: 'GET',
       contentType: 'application/json',
     })
@@ -126,7 +125,7 @@ const Opportunity = () => {
 
   const ProviderFilter = (y) => {
     axios({
-      url: `http://localhost:3001/api/opportunity/provider/${y}`,
+      url: `/api/opportunity/provider/${y}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -142,7 +141,7 @@ const Opportunity = () => {
 
   const ZoneFilter = (z) => {
     axios({
-      url: `http://localhost:3001/api/opportunity/work-zone/${z}`,
+      url: `/api/opportunity/work-zone/${z}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -158,7 +157,7 @@ const Opportunity = () => {
 
   const getOpporu = () => {
     axios({
-      url: `http://localhost:3001/api/opportunity`,
+      url: `/api/opportunity`,
       method: 'GET',
       contentType: 'application/json',
     })
@@ -216,42 +215,42 @@ const Opportunity = () => {
   };
 
 
-  const handleCheckboxChange = (id, name, email) => {
+  const handleCheckboxChange = (id, name, email, member_id) => {
     setCheckboxStates((prevCheckboxStates) => ({
       ...prevCheckboxStates,
       [id]: !prevCheckboxStates[id],
     }));
-
+  
     setSelectedOpportunities((prevSelectedOpportunities) => {
       if (checkboxStates[id]) {
         return prevSelectedOpportunities.filter((opportunity) => opportunity.id !== id);
       } else {
-        return [...prevSelectedOpportunities, { id, name, email }];
+        return [...prevSelectedOpportunities, { id, name, email,member_id }];
       }
     });
   };
-
+  
   const handleSelectAllChange = () => {
     const updatedCheckboxStates = {};
     const updatedSelectedOpportunities = [];
-
+  
     Object.keys(checkboxStates).forEach((id) => {
       updatedCheckboxStates[id] = !selectAllChecked;
       const opportunity = names.find((opportunity) => opportunity.id === parseInt(id));
       if (opportunity) {
-        updatedSelectedOpportunities.push({ id, name: opportunity.opportunity_name, email: opportunity.email});
+        updatedSelectedOpportunities.push({ id, name: opportunity.opportunity_name, email: opportunity.email,memberid:member_id });
       }
     });
-    console.log("Updated selected opportunities:", updatedSelectedOpportunities);
+  
+    console.log(updatedSelectedOpportunities)
     setCheckboxStates(updatedCheckboxStates);
     setSelectAllChecked(!selectAllChecked);
     setSelectedOpportunities(updatedSelectedOpportunities);
   };
-
-
-
+  
+  
   const sendMail = () => {
-    if (selectedOpportunities.length === 0 || !firstmail) {
+    if (selectedOpportunities.length === 0) {
       alert('Please enter recipient emails and select opportunities');
       return;
     }
@@ -266,64 +265,66 @@ const Opportunity = () => {
   
     const recipientEmails = filteredOpportunities.map(opportunity => opportunity.email);
   
-    axios.post('http://localhost:3001/send-email', {
+    axios.post('/send-email', {
       selectedOpportunities: filteredOpportunities,
       recipientEmails
     })
-      .then(response => {
-        console.log('Email sent successfully:', response.data);
-        alert('Email sent successfully');
-        intrest();
-        setSelectAllChecked(false);
-      })
-      .catch(error => {
-        console.error('Error sending email:', error);
-        alert('Error sending email');
-      });
+    .then(response => {
+      console.log('Email sent successfully:', response.data);
+      alert('Email sent successfully');
+      intrest();
+      setSelectAllChecked(false);
+    })
+    .catch(error => {
+      console.error('Error sending email:', error);
+      alert('Error sending email');
+    });
   };
-
-  const [mid, setMid] = useState('');
-  const [mname, setMName] = useState('');
-  const [phone, setMPhone] = useState('');
-
+  
+  const [mid, setMid] = useState([]);
+  const [mname, setMName] = useState([]);
+  const [phonem, setMPhone] = useState([]);
+  const [firstmail, setMEmail] = useState([]);
   const intrest = () => {
     const id = mid;
     const name = mname;
-
+    const phone = phonem;
+    const member_email=firstmail
     selectedOpportunities.forEach(opportunity => {
       const opportunity_id = opportunity.id;
       const opportunity_name = opportunity.name;
-      const recipientEmails=opportunity.email;
-
-    
+      const recipientEmails = opportunity.email;
+      const member_id = opportunity.memberid;
       const datax = {
         interest_id: id,
         interested_name: name,
-        email: recipientEmails,
         phonenumber: phone,
+        email: recipientEmails,
         opportunity_id: opportunity_id,
         opportunity_name: opportunity_name,
+        memberid: member_id,
+        member_email:member_email,
       };
-
-      console.log(`"check" datax`);
+  console.log(datax);
 
       axios({
-        url: `http://localhost:3001/api/interestedpeople`,
+        url: `/api/interestedpeople`,
         method: 'POST',
         data: datax,
         contentType: 'application/json'
       }).then((res) => {
-        console.log('Success:', res.data); // Log success response
+        console.log('Success:', res.data); 
       }).catch((error) => {
         console.error('Error:', error);
         alert('Failed to submit interest');
       });
     });
   };
+  
   const GetMemberData = () => {
     const userId = localStorage.getItem("user_id");
     axios({
-      url: `http://localhost:3001/api/members/${userId}`,
+      url: `/api/members/${userId}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -335,7 +336,6 @@ const Opportunity = () => {
       alert("error: ")
     });
   }
-
   return (
     <>
       <div className="pt-[2px] ">
@@ -435,10 +435,10 @@ const Opportunity = () => {
               <label className='pl-[9px]'>Select All</label>
               <button className='pl-[10px]' onClick={sendMail}>Send Mail</button>
               <Link to="/user/createoppo">
-                <button className='pl-4'>  Next Page</button>
-                <div>
-                 
-                </div>
+                <button className='pl-4'>Add</button>
+              </Link>
+              <Link to="/user/viewint">
+                <button className='pl-4'>View Eol</button>
               </Link>
             </div>
           </div>
@@ -450,7 +450,7 @@ const Opportunity = () => {
                   <input
                     type="checkbox"
                     checked={checkboxStates[d.id]}
-                    onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email)}
+                    onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email,d.member_id)}
                   />
                   <div className="grid grid-cols-4 gap-2">
                     <div>
