@@ -267,7 +267,17 @@ const [memail, setMEmail] = useState('');
                       <label for="address">Opportunity code</label>
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
                     </div>
+                   {/*  */}
+                    <div class="md:col-span-2">
+                      <label for="address">file</label>
+                      <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
+                    </div>
 
+                    <div class="md:col-span-2">
+                      <label for="address">photo</label>
+                      <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
+                    </div>
+                    {/*  */}
                     <div class="md:col-span-5 text-right">
                       <div class="inline-flex items-end">
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => AddData()}>Submit</button>

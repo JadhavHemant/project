@@ -8,9 +8,10 @@ const Applyed = () => {
     const [data, setData] = useState([]);
 
     const memberid = localStorage.getItem("user_id");
+    // alert(memberid);
     const Getdata = () => {
         axios({
-            url: `/api/memberidoppodata/intre/${memberid}`,
+            url: `/api/interestedpeople/${memberid}`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {

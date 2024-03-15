@@ -1640,6 +1640,22 @@ app.post('/api/interestedpeople', async (req, res) => {
   }
 });
 
+
+/////
+// GET API to fetch all interested people data for a specific memberid
+app.get('/api/interestedpeople/:interest_id', async (req, res) => {
+  const { interest_id } = req.params; // Extract memberid from the request parameters
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM interested_people_table WHERE interest_id = $1', [interest_id]);
+    client.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching interested people data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 ///////////////////////////////////////////
 // DELETE endpoint to remove an opportunity by ID
 app.delete('/api/delete/interested/:id', async (req, res) => {

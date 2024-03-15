@@ -40,6 +40,7 @@ const Opportunity = () => {
 
   useEffect(() => {
     Calling();
+    getAllData();
   }, []);
 
 
@@ -94,7 +95,21 @@ const Opportunity = () => {
       });
   };
 
-  const getOpportunityNames = (id) => {
+  const [op, setOp] = useState([]);
+  const getAllData = () => {
+    axios({
+      url: '/api/opportunity',
+      method: 'GET',
+      contentType: 'application/json',
+    }).then((res) => {
+      setOp(res.data);
+    })
+  }
+
+  const handleSelectChange = (e) => {
+    const { value } = e.target;
+    const id = value
+    console.log("djhksdjf" + id)
     axios({
       url: `/api/opportunitys/${id}`,
       method: 'GET',
@@ -107,10 +122,11 @@ const Opportunity = () => {
       });
   };
 
-
-  const DateFilter = () => {
+  const handleSelectDate = (gap) => {
+    const { value } = gap.target;
+    const g = value
     axios({
-      url: `/api/opportunity/date-gap/${7}}`,
+      url: `/api/opportunity/date-gap/${g}}`,
       method: 'GET',
       contentType: 'application/json',
     })
@@ -122,10 +138,11 @@ const Opportunity = () => {
       });
   };
 
-
-  const ProviderFilter = (y) => {
+  const handleSelectProvider = (y) => {
+    const { value } = y.target;
+    const i = value
     axios({
-      url: `/api/opportunity/provider/${y}`,
+      url: `/api/opportunity/provider/${i}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -139,9 +156,11 @@ const Opportunity = () => {
   }
 
 
-  const ZoneFilter = (z) => {
+  const handleSelectZone = (z) => {
+    const { value } = z.target;
+    const d = value
     axios({
-      url: `/api/opportunity/work-zone/${z}`,
+      url: `/api/opportunity/work-zone/${d}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -170,117 +189,73 @@ const Opportunity = () => {
         console.error('Error fetching opportunity names', err);
       });
   }
-  const [showOptions, setShowOptions] = useState(false);
-
-
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
-
-  const [showOptions1, setShowOptions1] = useState(false);
-
-
-  const toggleOptions1 = () => {
-    setShowOptions1(!showOptions1);
-    getOpporu();
-  };
-  const [showOptions2, setShowOptions2] = useState(false);
-
-
-
-  const toggleOptions2 = () => {
-    setShowOptions2(!showOptions2);
-  };
-
-  const [showOptions3, setShowOptions3] = useState(false);
-
-
-  const toggleOptions3 = () => {
-    setShowOptions3(!showOptions3);
-  };
-  const [showOptions4, setShowOptions4] = useState(false);
-
-
-  const toggleOptions4 = () => {
-    setShowOptions4(!showOptions4);
-  };
-
-  const [showOptions5, setShowOptions5] = useState(false);
-  const [selectedOption5, setSelectedOption5] = useState('');
-
-  console.log(selectedOption5)
-
-  const toggleOptions5 = () => {
-    setShowOptions5(!showOptions5);
-  };
-
 
   const handleCheckboxChange = (id, name, email, member_id) => {
     setCheckboxStates((prevCheckboxStates) => ({
       ...prevCheckboxStates,
       [id]: !prevCheckboxStates[id],
     }));
-  
+
     setSelectedOpportunities((prevSelectedOpportunities) => {
       if (checkboxStates[id]) {
         return prevSelectedOpportunities.filter((opportunity) => opportunity.id !== id);
       } else {
-        return [...prevSelectedOpportunities, { id, name, email,member_id }];
+        return [...prevSelectedOpportunities, { id, name, email, member_id }];
       }
     });
   };
-  
+
   const handleSelectAllChange = () => {
     const updatedCheckboxStates = {};
     const updatedSelectedOpportunities = [];
-  
+
     Object.keys(checkboxStates).forEach((id) => {
       updatedCheckboxStates[id] = !selectAllChecked;
       const opportunity = names.find((opportunity) => opportunity.id === parseInt(id));
       if (opportunity) {
-        updatedSelectedOpportunities.push({ id, name: opportunity.opportunity_name, email: opportunity.email,memberid:member_id });
+        updatedSelectedOpportunities.push({ id, name: opportunity.opportunity_name, email: opportunity.email, memberid: member_id });
       }
     });
-  
+
     console.log(updatedSelectedOpportunities)
     setCheckboxStates(updatedCheckboxStates);
     setSelectAllChecked(!selectAllChecked);
     setSelectedOpportunities(updatedSelectedOpportunities);
   };
-  
-  
+
+
   const sendMail = () => {
     if (selectedOpportunities.length === 0) {
       alert('Please enter recipient emails and select opportunities');
       return;
     }
-  
+
     // Filter out the opportunities that are not selected
     const filteredOpportunities = selectedOpportunities.filter(opportunity => checkboxStates[opportunity.id]);
-  
+
     if (filteredOpportunities.length === 0) {
       alert('Please select at least one opportunity');
       return;
     }
-  
+
     const recipientEmails = filteredOpportunities.map(opportunity => opportunity.email);
-  
+
     axios.post('/send-email', {
       selectedOpportunities: filteredOpportunities,
       recipientEmails
     })
-    .then(response => {
-      console.log('Email sent successfully:', response.data);
-      alert('Email sent successfully');
-      intrest();
-      setSelectAllChecked(false);
-    })
-    .catch(error => {
-      console.error('Error sending email:', error);
-      alert('Error sending email');
-    });
+      .then(response => {
+        console.log('Email sent successfully:', response.data);
+        alert('Email sent successfully');
+        intrest();
+        setSelectAllChecked(false);
+      })
+      .catch(error => {
+        console.error('Error sending email:', error);
+        alert('Error sending email');
+      });
   };
-  
+
   const [mid, setMid] = useState([]);
   const [mname, setMName] = useState([]);
   const [phonem, setMPhone] = useState([]);
@@ -289,7 +264,7 @@ const Opportunity = () => {
     const id = mid;
     const name = mname;
     const phone = phonem;
-    const member_email=firstmail
+    const member_email = firstmail
     selectedOpportunities.forEach(opportunity => {
       const opportunity_id = opportunity.id;
       const opportunity_name = opportunity.name;
@@ -303,9 +278,9 @@ const Opportunity = () => {
         opportunity_id: opportunity_id,
         opportunity_name: opportunity_name,
         memberid: member_id,
-        member_email:member_email,
+        member_email: member_email,
       };
-  console.log(datax);
+      console.log(datax);
 
       axios({
         url: `/api/interestedpeople`,
@@ -313,14 +288,14 @@ const Opportunity = () => {
         data: datax,
         contentType: 'application/json'
       }).then((res) => {
-        console.log('Success:', res.data); 
+        console.log('Success:', res.data);
       }).catch((error) => {
         console.error('Error:', error);
         alert('Failed to submit interest');
       });
     });
   };
-  
+
   const GetMemberData = () => {
     const userId = localStorage.getItem("user_id");
     axios({
@@ -336,101 +311,69 @@ const Opportunity = () => {
       alert("error: ")
     });
   }
+
+
+
+
   return (
     <>
-      <div className="pt-[2px] ">
-        <div className="fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#ebe9e9] px-[10px] overflow-y-auto">
-          <div className='p-[8px]'>
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle uppercase text-[14px] font-bold" onClick={toggleOptions}>
-                {'opportunity categories'}
-              </button>
-              {showOptions && (
-                <ul className="dropdown-menu text-[14px] pt-[10px] pl-[15px]">
-                  <li><label><input type="checkbox" onClick={() => getOppor()} />Show all</label></li>
-                  {
-                    type.map((d, k) => (
-                      <li><label><input type="checkbox" onClick={() => getOpportunityNames(d.id)} /> {d.opportunity_type}</label></li>
-                    ))
-                  }
-                </ul>
-              )}
-            </div>
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle uppercase text-[14px] font-bold" onClick={toggleOptions1}>
-                {'Provider'}
-              </button>
-              {showOptions1 && (
-                <ul className="dropdown-menu text-[14px] pt-[10px] pl-[15px]">
-                  <li><label><input type="checkbox" onClick={() => getOppor()} />Show all</label></li>
-                  {
-                    names.map((d, k) => (
-                      <li><label><input type="checkbox" onClick={() => ProviderFilter(d.opportunity_provider)} />{d.opportunity_provider}</label></li>
-                    ))
-                  }
-                </ul>
-              )}
+
+      <div className="pt-[2px]">
+        <div className=" p-4 fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#c2c2c2] px-[10px] overflow-y-auto">
+
+          <>
+
+            <div>
+              <input type="text" placeholder="Search..." value={searchKeyword} onChange={handleSearchChange} className='border rounded-sm' style={{ width: '230px' }} />
             </div>
 
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle uppercase text-[14px] font-bold" onClick={toggleOptions2}>
-                {'Zone'}
-              </button>
-              {showOptions2 && (
-                <ul className="dropdown-menu text-[14px] pt-[10px] pl-[15px]">
-                  <li><label><input type="checkbox" onClick={() => getOppor()} />Show all</label></li>
-                  {
-                    names.map((d, k) => (
-                      <li><label><input type="checkbox" onClick={() => ZoneFilter(d.opportunity_expected_work_zone)} />{d.opportunity_expected_work_zone}</label></li>
-                    ))
-                  }
-                </ul>
-              )}
+            <div className="dropdown pt-[4px] border-[black]">
+              <label className='px-[5px]'>categories :</label>
+              <select onChange={handleSelectChange} className="border-black pl-2" style={{ width: '230px' }}>
+                <option>Select categories</option>
+                {type.map((d, k) => (
+                  <option key={d.id} value={d.id}>{d.opportunity_type}</option>
+                ))}
+              </select>
+            </div>
+            <div className="dropdown pt-[4px] border-[black]">
+              <label className='px-[5px]'> Provider :</label>
+              <br />
+              <select onChange={handleSelectProvider} className="border-black pl-2" style={{ width: '230px' }}>
+                <option>Select Provider</option>
+                {op.map((d, k) => (
+                  <option key={d.id} value={d.opportunity_provider}>{d.opportunity_provider}</option>
+                ))}
+              </select>
             </div>
 
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle uppercase text-[14px] font-bold" onClick={toggleOptions3}>
-                {'Keyword'}
-              </button>
-              {showOptions3 && (
-                <ul className="dropdown-menu">
-                  <li className='border rounded-sm'>
-                    <input type="text" placeholder="Search..." value={searchKeyword} onChange={handleSearchChange} className='border rounded-sm' />
-                  </li>
-                </ul>
-              )}
+            <div className="dropdown pt-[4px] border-[black]">
+              <label className='px-[5px]'>Zone :</label>
+              <br />
+              <select onChange={handleSelectZone} className="border-black pl-2" style={{ width: '230px' }}>
+                <option>Select Zone</option>
+                {op.map((d, k) => (
+                  <option key={d.id} value={d.opportunity_expected_work_zone}>{d.opportunity_expected_work_zone}</option>
+                ))}
+              </select>
             </div>
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle" onClick={toggleOptions4}>
-                {'Select Date'}
-              </button>
-              {showOptions4 && (
-                <ul className="dropdown-menu">
-                  <li><label><input type="checkbox" onClick={() => DateFilter(7)} /> Last 7 days</label></li>
-                  <li><label><input type="checkbox" onClick={() => DateFilter(14)} /> Last 14 days</label></li>
-                  <li><label><input type="checkbox" onClick={() => DateFilter(21)} /> Last 21 days</label></li>
-                  <li><label><input type="checkbox" onClick={() => DateFilter(30)} /> Last 30 days</label></li>
-                </ul>
-              )}
+
+            <div className="dropdown pt-[4px] border-[black] ">
+              <label className='px-[5px]'>Date :</label><br />
+              <select onChange={handleSelectDate} className="border-black pl-2" style={{ width: '230px' }}>
+                <option>Select Date</option>
+                {op.map((d, k) => (
+                  <option key={d.id} value={d.opportunity_expected_work_zone}>Working on it</option>
+                ))}
+              </select>
             </div>
-            <div className="dropdown pt-[7px]">
-              <button className="dropdown-toggle" onClick={toggleOptions5}>
-                {'selelect Provider'}
-              </button>
-              {showOptions5 && (
-                <ul className="dropdown-menu">
-                  <li onClick={() => setSelectedOption5('Option 1')}>Option 1</li>
-                  <li onClick={() => setSelectedOption5('Option 2')}>Option 2</li>
-                  <li onClick={() => setSelectedOption5('Option 3')}>Option 3</li>
-                </ul>
-              )}
-            </div>
-          </div>
+          </>
+
           {/*  */}
         </div>
         <div className="p-4 sm:ml-64 bg-[white]">
           <div className='pb-[20px] first-letter:'>
-            <div className='p-4 bg-[#c4c4c4] rounded-[20px] '>
+            <div className='p-4 bg-[#c4c4c4]   '>
               <input type="checkbox" checked={selectAllChecked} onChange={handleSelectAllChange} />
               <label className='pl-[9px]'>Select All</label>
               <button className='pl-[10px]' onClick={sendMail}>Send Mail</button>
@@ -450,7 +393,7 @@ const Opportunity = () => {
                   <input
                     type="checkbox"
                     checked={checkboxStates[d.id]}
-                    onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email,d.member_id)}
+                    onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email, d.member_id)}
                   />
                   <div className="grid grid-cols-4 gap-2">
                     <div>
