@@ -12,7 +12,7 @@ const AllocationAdd = () => {
 
     const GetOpp = () => {
         axios({
-            url: '/api/get/opportunities',
+            url: 'http://localhost:3001/api/get/opportunities',
             method: 'GET',
             contentType: 'application/json',
         })
@@ -26,7 +26,7 @@ const AllocationAdd = () => {
 
     const getMembers = () => {
         axios({
-            url: '/api/members',
+            url: 'http://localhost:3001/api/members',
             method: 'GET',
             contentType: 'application/json',
         })
@@ -60,7 +60,7 @@ const AllocationAdd = () => {
             memberrole: memberrole.current.value
         };
         axios({
-            url: `/api/post/opportunityallocation`,
+            url: `http://localhost:3001/api/post/opportunityallocation`,
             method: 'POST',
             data: payload,
             contentType: 'application/json',

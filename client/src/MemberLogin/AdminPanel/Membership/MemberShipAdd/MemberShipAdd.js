@@ -22,7 +22,7 @@ const MemberShipAdd = () => {
         }
         console.log(playloas)
         axios({
-            url: '/api/add/membershiprecord',
+            url: 'http://localhost:3001/api/add/membershiprecord',
             method: 'POST',
             data: playloas,
             contentType: 'application/json',

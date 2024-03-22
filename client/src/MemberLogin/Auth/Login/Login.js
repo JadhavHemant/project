@@ -28,7 +28,7 @@ const Login = () => {
       };
 
       axios({
-        url: '/api/login',
+        url: 'http://localhost:3001/api/login',
         method: 'POST',
         data: student,
         contentType: "application/json"

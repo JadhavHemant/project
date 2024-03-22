@@ -82,7 +82,7 @@ const  Registerm = () => {
     const [membermaster, setMemberMaster] = useState([]);
     const GetMemberMaster = () => {
         axios({
-            url: `/api/membergroupmaster`,
+            url: `http://localhost:3001/api/membergroupmaster`,
             method: 'GET',
             contentType: 'application/json',
 
@@ -97,7 +97,7 @@ const  Registerm = () => {
 
     const GetMemberType = () => {
         axios({
-            url: `/api/membertypes`,
+            url: `http://localhost:3001/api/membertypes`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {
@@ -111,7 +111,7 @@ const  Registerm = () => {
 
     const Membercategorys = () => {
         axios({
-            url: `/api/membercategories`,
+            url: `http://localhost:3001/api/membercategories`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {

@@ -14,7 +14,7 @@ const EolDataView = () => {
         try {
             const memberid = localStorage.getItem("user_id");
             setMemberid(memberid);
-            const response = await axios.get(`/api/memberidoppodata/intre/${memberid}`);
+            const response = await axios.get(`http://localhost:3001/api/memberidoppodata/intre/${memberid}`);
             setData(response.data.map(item => ({ ...item, selectedOption: null })));
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -23,7 +23,7 @@ const EolDataView = () => {
 
     const deleteData = async (id) => {
         try {
-            await axios.delete(`/api/delete/interested/${id}`);
+            await axios.delete(`http://localhost:3001/api/delete/interested/${id}`);
             alert("Deleted successfully");
             getData();
         } catch (error) {
@@ -53,7 +53,7 @@ const EolDataView = () => {
                 memberid: member,
             };
 
-            axios.post('/api/selection_status/result', payload)
+            axios.post('http://localhost:3001/api/selection_status/result', payload)
                 .then((res) => {
                     alert("hello");
                 })
@@ -71,7 +71,7 @@ const EolDataView = () => {
                 memberid: member,
             };
             console.log(payload);
-            axios.post('/api/selection_status/result', payload)
+            axios.post('http://localhost:3001/api/selection_status/result', payload)
                 .then((res) => {
                     alert("hello");
                 })
@@ -123,7 +123,7 @@ const EolDataView = () => {
                                                 <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                                     <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">{d.interested_name}</td>
                                                     <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">{d.phonenumber}</td>
-                                                    <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400 hidden gap-10 lg:flex">{d.email}</td>
+                                                    <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400 hidden gap-10 lg:flex">{d.member_email}</td>
                                                     <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">{d.opportunity_name}</td>
                                                     <td className="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400 inline">
                                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-1" onClick={() => deleteData(d.id)}>Delete</button>

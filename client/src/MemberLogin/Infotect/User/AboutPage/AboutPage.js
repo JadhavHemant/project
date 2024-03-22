@@ -2,6 +2,7 @@ import React from 'react'
 import imagex from './Image/imagelogo.png'
 import FocusArea from './FocusArea/FocusArea'
 import Explore from './Explore/Explore'
+import Vision from './Vision/Vision'
 const AboutPage = () => {
     return (
         <>
@@ -23,6 +24,7 @@ const AboutPage = () => {
             </div>
             <FocusArea/>
             <Explore/>
+            <Vision/>
         </>
     )
 }

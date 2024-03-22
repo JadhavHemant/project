@@ -13,7 +13,7 @@ const AllocationOppoTable = () => {
 
     const getData = () => {
         axios({
-            url: `/api/get/opportunityallocation`,
+            url: `http://localhost:3001/api/get/opportunityallocation`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {
@@ -25,7 +25,7 @@ const AllocationOppoTable = () => {
 
     const DeleteMember = (id) => {
         axios({
-            url: `/api/opportunityallocation/${id}`,
+            url: `http://localhost:3001/api/opportunityallocation/${id}`,
             method: 'delete',
         })
             .then((res) => {

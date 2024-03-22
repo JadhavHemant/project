@@ -13,7 +13,7 @@ const OpportunitiesView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/api/opportunity/${id}`,
+      url: `http://localhost:3001/api/opportunity/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const OpportunitiesView = () => {
 
   const DeleteMember = (id) => {
     axios({
-      url: `/api/delete/opportunities/${id}`,
+      url: `http://localhost:3001/api/delete/opportunities/${id}`,
       method: 'delete',
     }).then((res) => {
       alert("Delete member successfully");

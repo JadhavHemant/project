@@ -78,7 +78,7 @@ const UpdateStudent = () => {
     var id = localStorage.getItem("user_id");
     setIds(id);
     axios({
-      url: `/ideation/${id}`,
+      url: `http://localhost:3001/ideation/${id}`,
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const UpdateStudent = () => {
     };
     console.log(ide)
     axios({
-      url: `/update/ideation/${id}/`,
+      url: `http://localhost:3001/update/ideation/${id}/`,
       method: "put",
       data: ide,
       contentType: "application/json"

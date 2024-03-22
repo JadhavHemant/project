@@ -11,7 +11,7 @@ const RefrenceTable = () => {
 
     const getData = () => {
         axios({
-            url: "/studentsrefrence",
+            url: "http://localhost:3001/studentsrefrence",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const RefrenceTable = () => {
 
     const Delete = (id) => {
         axios({
-            url: `/studentsrefrence/${id}`,
+            url: `http://localhost:3001/studentsrefrence/${id}`,
             method: 'DELETE',
         })
             .then((res) => {

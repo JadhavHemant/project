@@ -13,7 +13,7 @@ const MembershpiView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/api/id/membershiprecord/${id}`,
+      url: `http://localhost:3001/api/id/membershiprecord/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const MembershpiView = () => {
 
   const DeleteMember = (id) => {
     axios({
-      url: `/api/delete/membershiprecord/${id}`,
+      url: `http://localhost:3001/api/delete/membershiprecord/${id}`,
       method: 'delete',
     }).then((res) => {
       alert("Delete member successfully");

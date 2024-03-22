@@ -54,7 +54,7 @@ const Opportunity = () => {
   }
   const getOpportunityTypes = () => {
     axios({
-      url: '/api/opportunity_types',
+      url: 'http://localhost:3001/api/opportunity_types',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -69,7 +69,7 @@ const Opportunity = () => {
 
   const getOppor = () => {
     axios({
-      url: '/api/opportunity',
+      url: 'http://localhost:3001/api/opportunity',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -98,7 +98,7 @@ const Opportunity = () => {
   const [op, setOp] = useState([]);
   const getAllData = () => {
     axios({
-      url: '/api/opportunity',
+      url: 'http://localhost:3001/api/opportunity',
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -109,9 +109,8 @@ const Opportunity = () => {
   const handleSelectChange = (e) => {
     const { value } = e.target;
     const id = value
-    console.log("djhksdjf" + id)
     axios({
-      url: `/api/opportunitys/${id}`,
+      url: `http://localhost:3001/api/opportunitys/${id}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -126,7 +125,7 @@ const Opportunity = () => {
     const { value } = gap.target;
     const g = value
     axios({
-      url: `/api/opportunity/date-gap/${g}}`,
+      url: `http://localhost:3001/api/opportunity/date-gap/${g}}`,
       method: 'GET',
       contentType: 'application/json',
     })
@@ -142,7 +141,7 @@ const Opportunity = () => {
     const { value } = y.target;
     const i = value
     axios({
-      url: `/api/opportunity/provider/${i}`,
+      url: `http://localhost:3001/api/opportunity/provider/${i}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -160,7 +159,7 @@ const Opportunity = () => {
     const { value } = z.target;
     const d = value
     axios({
-      url: `/api/opportunity/work-zone/${d}`,
+      url: `http://localhost:3001/api/opportunity/work-zone/${d}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -176,7 +175,7 @@ const Opportunity = () => {
 
   const getOpporu = () => {
     axios({
-      url: `/api/opportunity`,
+      url: `http://localhost:3001/api/opportunity`,
       method: 'GET',
       contentType: 'application/json',
     })
@@ -230,7 +229,6 @@ const Opportunity = () => {
       return;
     }
 
-    // Filter out the opportunities that are not selected
     const filteredOpportunities = selectedOpportunities.filter(opportunity => checkboxStates[opportunity.id]);
 
     if (filteredOpportunities.length === 0) {
@@ -240,7 +238,7 @@ const Opportunity = () => {
 
     const recipientEmails = filteredOpportunities.map(opportunity => opportunity.email);
 
-    axios.post('/send-email', {
+    axios.post('http://localhost:3001/send-email', {
       selectedOpportunities: filteredOpportunities,
       recipientEmails
     })
@@ -283,7 +281,7 @@ const Opportunity = () => {
       console.log(datax);
 
       axios({
-        url: `/api/interestedpeople`,
+        url: `http://localhost:3001/api/interestedpeople`,
         method: 'POST',
         data: datax,
         contentType: 'application/json'
@@ -299,7 +297,7 @@ const Opportunity = () => {
   const GetMemberData = () => {
     const userId = localStorage.getItem("user_id");
     axios({
-      url: `/api/members/${userId}`,
+      url: `http://localhost:3001/api/members/${userId}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -319,17 +317,15 @@ const Opportunity = () => {
     <>
 
       <div className="pt-[2px]">
-        <div className=" p-4 fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#c2c2c2] px-[10px] overflow-y-auto">
+        <div className=" p-4 fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#a1a1a1] px-[10px] overflow-y-auto rounded-[20px]">
 
           <>
-
             <div>
-              <input type="text" placeholder="Search..." value={searchKeyword} onChange={handleSearchChange} className='border rounded-sm' style={{ width: '230px' }} />
+              <input type="text" placeholder="Search..." value={searchKeyword} onChange={handleSearchChange} className='border  rounded-[10px] p-1' style={{ width: '230px' }} />
             </div>
-
             <div className="dropdown pt-[4px] border-[black]">
               <label className='px-[5px]'>categories :</label>
-              <select onChange={handleSelectChange} className="border-black pl-2" style={{ width: '230px' }}>
+              <select onChange={handleSelectChange} className="border-black pl-2 rounded-[10px] p-1" style={{ width: '230px' }}>
                 <option>Select categories</option>
                 {type.map((d, k) => (
                   <option key={d.id} value={d.id}>{d.opportunity_type}</option>
@@ -339,28 +335,26 @@ const Opportunity = () => {
             <div className="dropdown pt-[4px] border-[black]">
               <label className='px-[5px]'> Provider :</label>
               <br />
-              <select onChange={handleSelectProvider} className="border-black pl-2" style={{ width: '230px' }}>
+              <select onChange={handleSelectProvider} className="border-black pl-2 rounded-[10px] p-1" style={{ width: '230px' }}>
                 <option>Select Provider</option>
                 {op.map((d, k) => (
                   <option key={d.id} value={d.opportunity_provider}>{d.opportunity_provider}</option>
                 ))}
               </select>
             </div>
-
             <div className="dropdown pt-[4px] border-[black]">
               <label className='px-[5px]'>Zone :</label>
               <br />
-              <select onChange={handleSelectZone} className="border-black pl-2" style={{ width: '230px' }}>
+              <select onChange={handleSelectZone} className="border-black pl-2 rounded-[10px] p-1" style={{ width: '230px' }}>
                 <option>Select Zone</option>
                 {op.map((d, k) => (
                   <option key={d.id} value={d.opportunity_expected_work_zone}>{d.opportunity_expected_work_zone}</option>
                 ))}
               </select>
             </div>
-
             <div className="dropdown pt-[4px] border-[black] ">
               <label className='px-[5px]'>Date :</label><br />
-              <select onChange={handleSelectDate} className="border-black pl-2" style={{ width: '230px' }}>
+              <select onChange={handleSelectDate} className="border-black pl-2 rounded-[10px] p-1" style={{ width: '230px' }}>
                 <option>Select Date</option>
                 {op.map((d, k) => (
                   <option key={d.id} value={d.opportunity_expected_work_zone}>Working on it</option>
@@ -368,78 +362,81 @@ const Opportunity = () => {
               </select>
             </div>
           </>
-
-          {/*  */}
         </div>
-        <div className="p-4 sm:ml-64 bg-[white]">
+
+        <div className="p-4 sm:ml-64 bg-[white] ">
           <div className='pb-[20px] first-letter:'>
             <div className='p-4 bg-[#c4c4c4]   '>
               <input type="checkbox" checked={selectAllChecked} onChange={handleSelectAllChange} />
-              <label className='pl-[9px]'>Select All</label>
-              <button className='pl-[10px]' onClick={sendMail}>Send Mail</button>
+              <label className='pl-[9px] hover:underline'>Select All</label>
+              <button className='pl-[10px] hover:underline' onClick={sendMail}>Send Mail</button>
               <Link to="/user/createoppo">
-                <button className='pl-4'>Add</button>
+                <button className='pl-4 hover:underline'>Add</button>
               </Link>
               <Link to="/user/viewint">
-                <button className='pl-4'>View Eol</button>
+                <button className='pl-4 hover:underline' >View Eol</button>
               </Link>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 gap-4 ">
-            {names !== null &&
-              names.map((d, k) => (
-                <div className="border-solid border-2 border-[black] rounded-lg p-4 bg-[#ffffff]">
-                  <input
-                    type="checkbox"
-                    checked={checkboxStates[d.id]}
-                    onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email, d.member_id)}
-                  />
-                  <div className="grid grid-cols-4 gap-2">
-                    <div>
-                      <p className="text-xl font-bold text-gray-800 mb-2 ">{highlightText(d.opportunity_name)}</p>
-                      <p className="text-sm text-gray-600 mb-2">{highlightText(d.opportunity_provider)}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_start_date))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_end_date))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_problem_statement))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_solution))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_expected_work_zone))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_work_time))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_work_type))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_budget_available))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_estimate_budget))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.budget_currency))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_resource_volume))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_status))}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_code))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.revised_volume))}</p>
-                    </div>
+            <div className="grid grid-cols-1 gap-4">
+              {names !== null &&
+                names.map((d, k) => (
+                  
+                  <div className="border-solid border-2 border-[black] rounded-lg p-4 bg-[#ffffff]">
+                    <input type="checkbox" checked={checkboxStates[d.id]} onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email, d.member_id)} />
                     <div>
                       <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.revised_budget))}</p>
                       <p className="text-sm text-gray-600">{highlightText(String(d.create_date))}</p>
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_type_id))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.flag))}</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      <div>
+                        <p className="text-xl font-bold text-gray-800 mb-2 ">{highlightText(d.opportunity_name)}</p>
+                        <p className="text-sm text-gray-600 mb-2">{highlightText(d.opportunity_provider)}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_start_date))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_end_date))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_problem_statement))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_solution))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_expected_work_zone))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_work_time))}</p>
+                    
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_work_type))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_budget_available))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_estimate_budget))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.budget_currency))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_resource_volume))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_status))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_code))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.revised_volume))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.revised_budget))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.create_date))}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_type_id))}</p>
+                        <p className="text-sm text-gray-600">{highlightText(String(d.flag))}</p>
+                      </div>
                     </div>
+                    <div className="flex justify-end ">
+                        <img src={`http://localhost:3001/uploads/${d.photos}`} alt='hello' className="h-[120px]" />
+                      </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
         </div>
       </div>
     </>

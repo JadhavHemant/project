@@ -39,7 +39,7 @@ const Research = () => {
     console.log(X);
 
     axios({
-      url: '/post/research',
+      url: 'http://localhost:3001/post/research',
       method: 'POST',
       data: X,
       contentType: 'application/json',

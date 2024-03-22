@@ -41,7 +41,7 @@ const Ideation = () => {
         const ide = { student_name: student_name.current.value, student_class: student_class.current.value, student_roll_number: student_roll_number.current.value, student_phone_no: student_phone_no.current.value, email_id: email_id.current.value, student_college: student_college.current.value, description: description.current.value, problem_statement: problem_statement.current.value, solution: solution.current.value, technology_inract: technology_inract.current.value, github_link: github_link.current.value, power_point_document: power_point_document.current.value, discipline: discipline.current.value };
         console.log(ide)
         axios({
-            url: "/add/ideation",
+            url: "http://localhost:3001/add/ideation",
             method: "post",
             data: ide,
             contentType: "application/json",

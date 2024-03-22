@@ -14,7 +14,7 @@ const [idx,setId]=useState([])
 
   const GetMember = (id) => {
     axios({
-      url: `/api/opportunity/${id}`,
+      url: `http://localhost:3001/api/opportunity/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ const [idx,setId]=useState([])
     console.log(playload);
     var id=idx;
     axios({
-      url: `/api/update/opportunity/${id}`,
+      url: `http://localhost:3001/api/update/opportunity/${id}`,
       method: 'put',
       data: playload,
       headers: {

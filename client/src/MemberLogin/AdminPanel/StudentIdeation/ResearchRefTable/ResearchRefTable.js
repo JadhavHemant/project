@@ -11,7 +11,7 @@ const ResearchRefTable = () => {
 
     const getData = () => {
         axios({
-            url: "/researchref",
+            url: "http://localhost:3001/researchref",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const ResearchRefTable = () => {
 
     const Delete = (id) => {
         axios({
-            url: `/researchref/${id}`,
+            url: `http://localhost:3001/researchref/${id}`,
             method: 'DELETE',
         })
             .then((res) => {

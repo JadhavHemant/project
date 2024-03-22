@@ -24,7 +24,7 @@ const EditRefrence = () => {
   }, []);
 
   const GetMember = (id) => {
-    axios.get(`/studentsrefrence/${id}`)
+    axios.get(`http://localhost:3001/studentsrefrence/${id}`)
       .then((res) => {
         const data = res.data;
         name.current.value = data.name;
@@ -62,7 +62,7 @@ const EditRefrence = () => {
       return;
     }
 
-    axios.put(`/studentsrefrence/${ids}`, formData)
+    axios.put(`http://localhost:3001/studentsrefrence/${ids}`, formData)
       .then(() => {
         alert("Reference updated successfully");
         navigate('/admin/refrencetable');

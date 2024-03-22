@@ -12,7 +12,7 @@ useEffect(() =>{
 const[data,setData]=useState([]);
     const getData = () =>{
         axios({
-            url: '/api/interestedpeople',
+            url: 'http://localhost:3001/api/interestedpeople',
             method: 'GET',
 
         }).then((res)=>{
@@ -23,7 +23,7 @@ const[data,setData]=useState([]);
     }
     const deleteData=(id)=>{
         axios({
-            url: `/api/delete/interested/${id}`,
+            url: `http://localhost:3001/api/delete/interested/${id}`,
             method: 'DELETE',
         }).then((res)=>{
             alert("done");

@@ -14,7 +14,7 @@ const ResearchRefView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/researchref/${id}`,
+      url: `http://localhost:3001/researchref/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const ResearchRefView = () => {
 
   const DeleteMember = (id) => {
     axios({
-      url: `/researchref/${id}`,
+      url: `http://localhost:3001/researchref/${id}`,
       method: 'delete',
     }).then((res) => {
       alert("Delete Student successfully");

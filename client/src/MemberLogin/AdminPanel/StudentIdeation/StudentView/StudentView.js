@@ -14,7 +14,7 @@ const StudentView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/ideation/${id}`,
+      url: `http://localhost:3001/ideation/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const StudentView = () => {
 
   const DeleteMember = (id) => {
     axios({
-      url: `/delete/ideation/${id}`,
+      url: `http://localhost:3001/delete/ideation/${id}`,
       method: 'delete',
     }).then((res) => {
       alert("Delete Student successfully");
@@ -56,7 +56,7 @@ const StudentView = () => {
         console.log('Data to be sent:', data);
 
         axios({
-            url: `/add/members/studentids`,
+            url: `http://localhost:3001/add/members/studentids`,
             method: "post",
             data: data,
             headers: { "Content-Type": "application/json" },

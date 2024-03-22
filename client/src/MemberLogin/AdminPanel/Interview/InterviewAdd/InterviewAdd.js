@@ -11,7 +11,7 @@ const InterviewAdd = () => {
 
     const GetUser = () => {
         axios({
-            url: "/api/members",
+            url: "http://localhost:3001/api/members",
             method: "GET",
             contentType: "application/json",
         }).then((res) => {
@@ -25,7 +25,7 @@ const InterviewAdd = () => {
 
     const GetOpp = () => {
         axios({
-            url: '/api/get/opportunities',
+            url: 'http://localhost:3001/api/get/opportunities',
             method: 'GET',
             contentType: 'application/json',
         })
@@ -55,7 +55,7 @@ const InterviewAdd = () => {
         console.log(playload)
 
         axios({
-            url: '/api/post/memberinterviewrecords',
+            url: 'http://localhost:3001/api/post/memberinterviewrecords',
             method: 'POST',
             data: playload,
             contentType: 'application/json'

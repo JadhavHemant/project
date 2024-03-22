@@ -96,7 +96,7 @@ const AddResarch = () => {
 
     console.log(data);
 
-    axios.post('/add/research', data)
+    axios.post('http://localhost:3001/add/research', data)
       .then(res => {
         alert('Success');
       })

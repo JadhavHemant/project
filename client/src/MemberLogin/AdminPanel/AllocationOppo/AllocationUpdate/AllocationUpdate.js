@@ -17,7 +17,7 @@ const AllocationUpdate = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/api/opportunity_allocation/${id}`,
+      url: `http://localhost:3001/api/opportunity_allocation/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ const AllocationUpdate = () => {
 
   const GetOpp = () => {
     axios({
-      url: '/api/get/opportunities',
+      url: 'http://localhost:3001/api/get/opportunities',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -58,7 +58,7 @@ const AllocationUpdate = () => {
 
   const getMembers = () => {
     axios({
-      url: '/api/members',
+      url: 'http://localhost:3001/api/members',
       method: 'GET',
       contentType: 'application/json',
     })
@@ -93,7 +93,7 @@ const AllocationUpdate = () => {
     };
     var id = ids;
     axios({ 
-      url: `/api/update/opportunityallocation/${id}`,
+      url: `http://localhost:3001/api/update/opportunityallocation/${id}`,
       method: 'PUT',
       data: payload,
       contentType: 'application/json',

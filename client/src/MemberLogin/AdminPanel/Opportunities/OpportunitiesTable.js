@@ -13,7 +13,7 @@ const OpportunitiesTable = () => {
 
     const getData = () => {
         axios({
-            url: `/api/opportunity`,
+            url: `http://localhost:3001/api/opportunity`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {
@@ -25,7 +25,7 @@ const OpportunitiesTable = () => {
 
     const Delete = (id) => {
         axios({
-            url: `/api/delete/opportunities/${id}`,
+            url: `http://localhost:3001/api/delete/opportunities/${id}`,
             method: 'delete',
         }).then((res) => {
             alert("Delete opportunity successfully");
@@ -42,7 +42,7 @@ const OpportunitiesTable = () => {
     }
 
     const Add = (id) => {
-        navigate("/admin/addoppo")
+        navigate("http://localhost:3001/admin/addoppo")
     }
     const Update = (id) => {
         localStorage.setItem("member_id", id);

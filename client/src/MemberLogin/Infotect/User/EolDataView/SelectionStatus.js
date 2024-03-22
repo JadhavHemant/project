@@ -10,7 +10,7 @@ const SelectionStatus = () => {
 
   const getData = () => {
     axios({
-      url: `/api/selection_status/result`,
+      url: `http://localhost:3001/api/selection_status/result`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {
@@ -21,7 +21,7 @@ const SelectionStatus = () => {
   }
   const SelectData = () => {
     axios({
-      url: `/api/selection_status/result`,
+      url: `http://localhost:3001/api/selection_status/result`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res) => {

@@ -13,7 +13,7 @@ const AllocationView = () => {
 
     const GetMember = (id) => {
         axios({
-            url: `/api/opportunity_allocation/${id}`,
+            url: `http://localhost:3001/api/opportunity_allocation/${id}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const AllocationView = () => {
 
     const DeleteMember = (id) => {
         axios({
-            url: `/api/opportunityallocation/${id}`,
+            url: `http://localhost:3001/api/opportunityallocation/${id}`,
             method: 'delete',
         }).then((res) => {
             alert("Delete member successfully");

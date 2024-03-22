@@ -30,7 +30,7 @@ const ResearchUpdate = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/research/${id}`,
+      url: `http://localhost:3001/research/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const ResearchUpdate = () => {
 
     console.log(X);
     axios({
-      url: `/research/${id}`,
+      url: `http://localhost:3001/research/${id}`,
       method: 'put',
       data: X,
       contentType: 'application/json',

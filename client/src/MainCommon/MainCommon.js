@@ -52,6 +52,13 @@ import CreateOpportunity from '../MemberLogin/Infotect/User/Opportunity/CreateOp
 import EolDataView from '../MemberLogin/Infotect/User/EolDataView/EolDataView';
 import SelectionStatus from '../MemberLogin/Infotect/User/EolDataView/SelectionStatus';
 import Applyed from '../MemberLogin/Infotect/User/Opportunity/Applyed/Applyed';
+import Reference from '../MemberLogin/Infotect/User/Reference/Reference';
+import Resourcemaster from '../MemberLogin/AdminPanel/Resourcemaster/Resourcemaster';
+import Calulateper from '../MemberLogin/Infotect/User/Calulateper/Calulateper';
+import Group from '../MemberLogin/Infotect/User/Calulateper/Group';
+import Greoupmember from '../MemberLogin/Infotect/User/Calulateper/Groupmember';
+import AddGroup from '../MemberLogin/Infotect/User/Calulateper/AddGroup';
+import MembercardView from '../MemberLogin/Infotect/User/MemberView/MembercardView';
 
 
 
@@ -70,8 +77,15 @@ const MainCommon = () => {
                      <Route path='oppo' element={<Opportunity />} />
                      <Route path='createoppo' element={<CreateOpportunity />} />
                      <Route path='viewint' element={<EolDataView />} />
-                     <Route path='selectionStatus' element={<SelectionStatus/>} />
-                     <Route path='applyed' element={<Applyed/>} />
+                     <Route path='selectionStatus' element={<SelectionStatus />} />
+                     <Route path='applyed' element={<Applyed />} />
+                     <Route path='refrence' element={<Reference />} />
+                     <Route path='calculate' element={<Calulateper />} />
+                     <Route path='group' element={<Group />} />
+                     <Route path='membergroup' element={<Greoupmember />} />
+
+                     <Route path='addgroup' element={<AddGroup />} />
+                     <Route path='memberviewscard' element={<MembercardView />} />
                   </Route>
 
 
@@ -110,19 +124,22 @@ const MainCommon = () => {
                      <Route path="refrence" element={<StudentRefrence />} />
                      <Route path="refrencetable" element={<RefrenceTable />} />
                      <Route path="refrenceview" element={<RefrenceView />} />
-                     <Route path="refrenceedit" element={< EditRefrence/>} />
+                     <Route path="refrenceedit" element={< EditRefrence />} />
 
                      <Route path="resarchtable" element={<ResarchTable />} />
-                     <Route path="addresearch" element={< AddResarch/>} />
+                     <Route path="addresearch" element={< AddResarch />} />
                      <Route path="researchviewinfo" element={<ResarchView />} />
                      <Route path="researchupdateinfo" element={<ResearchUpdate />} />
-                     <Route path="refrenceaddresearch" element={< AddResearchRef/>} />
-                     
-                     <Route path="refrenceaddtableresearch" element={< ResearchRefTable/>} />
-                     <Route path="refrenceaddviewresearch" element={<ResearchRefView />} />
-                     <Route path="refrenceaddupdateresarch" element={<ResearchEdit/>} />
+                     <Route path="refrenceaddresearch" element={< AddResearchRef />} />
 
-                     <Route path="intoppo" element={<IntrestOppor/>} />
+                     <Route path="refrenceaddtableresearch" element={< ResearchRefTable />} />
+                     <Route path="refrenceaddviewresearch" element={<ResearchRefView />} />
+                     <Route path="refrenceaddupdateresarch" element={<ResearchEdit />} />
+
+                     <Route path="intoppo" element={<IntrestOppor />} />
+                     <Route path='resourcemaster' element={<Resourcemaster />} />
+
+                    
                   </Route>
                </Routes>
             </Router>

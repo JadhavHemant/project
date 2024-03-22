@@ -20,48 +20,58 @@ const CreateOpportunity = () => {
   const opportunity_code = useRef();
   const revised_volume = useRef();
   const revised_budget = useRef();
+  const file_upload=useRef();
+  const [file, setFile] = useState(null);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const AddData = async () => {
     const id = mid;
   const email = memail;
-    const playload = {
-      opportunity_type_id: opportunity_type_id.current.value,
-      opportunity_name: opportunity_name.current.value,
-      opportunity_description: opportunity_description.current.value,
-      opportunity_provider: opportunity_provider.current.value,
-      opportunity_start_date: opportunity_start_date.current.value,
-      opportunity_end_date: opportunity_end_date.current.value,
-      opportunity_problem_statement: opportunity_problem_statement.current.value,
-      opportunity_expected_solution: opportunity_expected_solution.current.value,
-      opportunity_expected_work_zone: opportunity_expected_work_zone.current.value,
-      opportunity_expected_work_time: opportunity_expected_work_time.current.value,
-      opportunity_work_type: opportunity_work_type.current.value,
-      opportunity_budget_available: opportunity_budget_available.current.value,
-      opportunity_estimate_budget: opportunity_estimate_budget.current.value,
-      budget_currency: budget_currency.current.value,
-      opportunity_resource_volume: opportunity_resource_volume.current.value,
-      opportunity_status: opportunity_status.current.value,
-      opportunity_code: opportunity_code.current.value,
-      revised_volume:revised_volume.current.value,
-      revised_budget:revised_budget.current.value,
-      email:email,
-      member_id:id
-      };
+  
 
-    console.log(playload);
-    axios({
-      url: `http://localhost:3001/api/opportunity`,
-      method: 'POST',
-      data: playload,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        alert("Done");
-      })
-      .catch((err) => {
-        alert("Error: " + err);
-      });
+      const formData = new FormData();
+      if (file) {
+        formData.append('photo', file);
+      }
+  
+      formData.append('opportunity_type_id', opportunity_type_id.current.value);
+      formData.append('opportunity_name', opportunity_name.current.value);
+      formData.append('opportunity_description', opportunity_description.current.value);
+      formData.append('opportunity_provider', opportunity_provider.current.value);
+      formData.append('opportunity_start_date', opportunity_start_date.current.value);
+      formData.append('opportunity_end_date', opportunity_end_date.current.value);
+      formData.append('opportunity_problem_statement', opportunity_problem_statement.current.value);
+      formData.append('opportunity_expected_solution', opportunity_expected_solution.current.value);
+      formData.append('opportunity_expected_work_zone', opportunity_expected_work_zone.current.value);
+      formData.append('opportunity_expected_work_time', opportunity_expected_work_time.current.value);
+      formData.append('opportunity_work_type', opportunity_work_type.current.value);
+      formData.append('opportunity_budget_available', opportunity_budget_available.current.value);
+      formData.append('opportunity_estimate_budget', opportunity_estimate_budget.current.value);
+      formData.append('budget_currency', budget_currency.current.value);
+      formData.append('opportunity_resource_volume', opportunity_resource_volume.current.value);
+      formData.append('opportunity_status', opportunity_status.current.value);
+      formData.append('opportunity_code', opportunity_code.current.value);
+      formData.append('revised_volume', revised_volume.current.value);
+      formData.append('revised_budget', revised_budget.current.value);
+      formData.append('email', email);
+      formData.append('member_id', id);
+      formData.append('file_upload', file_upload.current.value);
+      
+  
+      try {
+        const response = await axios.post('http://localhost:3001/api/opportunity', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        console.log('Response:', response.data);
+        alert('Opportunity added successfully!');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error adding opportunity.');
+      }
 
   }
   const [selectedType, setSelectedType] = useState('');
@@ -75,11 +85,10 @@ const CreateOpportunity = () => {
 
   const [mid, setMid] = useState('');
 const [memail, setMEmail] = useState('');
-
   const GetMemberData=()=>{
     const userId = localStorage.getItem("user_id");
     axios({
-      url: `/api/members/${userId}`,
+      url: `http://localhost:3001/api/members/${userId}`,
       method: 'GET',
       contentType: 'application/json',
     }).then((res)=>{
@@ -202,7 +211,7 @@ const [memail, setMEmail] = useState('');
 
                     <div class="md:col-span-2">
                       <label >Expected Work Time</label>
-                      <input type="date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_expected_work_time} />
+                      <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_expected_work_time} />
                     </div>
 
                     <div class="md:col-span-2">
@@ -268,15 +277,21 @@ const [memail, setMEmail] = useState('');
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
                     </div>
                    {/*  */}
-                    <div class="md:col-span-2">
-                      <label for="address">file</label>
-                      <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
+                   <div class="md:col-span-2">
+                      <label for="email">File Upload</label>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <br />
+                        <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={file_upload} />
+                        <div style={{ position: "relative" }}></div>
+                        <a href="https://drive.google.com/drive/folders/18xEFIS66wqfRQWjcAzJnE19-l39gFZIT?usp=share_link" target="_blank" rel="noopener noreferrer" className='text-[blue]'>Upload file here</a>
+                      </div>
                     </div>
-
-                    <div class="md:col-span-2">
-                      <label for="address">photo</label>
-                      <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={opportunity_code} />
-                    </div>
+                    {/*  */}
+                     
+                  <div className="md:col-span-2">
+                    <label htmlFor="photo">Photo</label>
+                    <input type="file" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" onChange={handleFileChange} />
+                  </div>
                     {/*  */}
                     <div class="md:col-span-5 text-right">
                       <div class="inline-flex items-end">

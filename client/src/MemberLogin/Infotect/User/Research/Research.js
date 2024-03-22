@@ -198,7 +198,7 @@ const Research = () => {
                         <br />
                         <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={file_upload} />
                         <div style={{ position: "relative" }}></div>
-                        <a href="https://drive.google.com/drive/folders/18xEFIS66wqfRQWjcAzJnE19-l39gFZIT?usp=share_link" target="_blank" rel="noopener noreferrer">Upload file here</a>
+                        <a href="https://drive.google.com/drive/folders/18xEFIS66wqfRQWjcAzJnE19-l39gFZIT?usp=share_link" target="_blank" rel="noopener noreferrer" className='text-[blue]'>Upload file here</a>
                       </div>
                     </div>
                     <div class='md:col-span-2'>

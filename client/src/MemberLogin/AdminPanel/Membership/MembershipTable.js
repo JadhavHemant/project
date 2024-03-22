@@ -13,7 +13,7 @@ const MembershipTable = () => {
 
     const getData = () => {
         axios({
-            url: `/api/membershiprecords`,
+            url: `http://localhost:3001/api/membershiprecords`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {
@@ -25,7 +25,7 @@ const MembershipTable = () => {
 
     const DeleteMember = (id) => {
         axios({
-            url: `/api/delete/membershiprecord/${id}`,
+            url: `http://localhost:3001/api/delete/membershiprecord/${id}`,
             method: 'delete',
         }).then((res) => {
             alert("Delete membership record successfully");

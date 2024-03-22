@@ -35,7 +35,7 @@ const StudentRefrence = () => {
         }
 
         // Proceed with form submission if all fields are filled
-        axios.post('/studentsrefrence', formData)
+        axios.post('http://localhost:3001/studentsrefrence', formData)
             .then(() => {
                 alert("Reference added successfully");
                 clearInputFields();

@@ -14,7 +14,7 @@ const RefrenceView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/studentsrefrence/${id}`,
+      url: `http://localhost:3001/studentsrefrence/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

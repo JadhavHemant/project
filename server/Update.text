@@ -73,3 +73,25 @@ India@5555
 
 file upload
 image upload
+
+opportunity_incentive (opportunityid, designation, incentivepercentage)
+group(memberid,groupcode, groupname, grouplogo, groupcaption, groupwebsitelink, group owner, email, phone, transactionvalue)
+group_member(groupmemberid, memberid, membername, email, phohe,transactionvalue)
+
+
+
+
+
+
+make member in card
+
+
+
+
+
+
+
+
+
+
+

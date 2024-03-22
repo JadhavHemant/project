@@ -22,7 +22,7 @@ const MemberShipUpdate = () => {
     
       const GetMember = (id) => {
         axios({
-          url: `/api/id/membershiprecord/${id}`,
+          url: `http://localhost:3001/api/id/membershiprecord/${id}`,
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const MemberShipUpdate = () => {
         var id=ids
         alert(id)
         axios({
-            url: `/api/update/membershiprecord/${id}`,
+            url: `http://localhost:3001/api/update/membershiprecord/${id}`,
             method: 'Put',
             data: playloas,
             contentType: 'application/json',

@@ -14,7 +14,7 @@ const ResarchView = () => {
 
   const GetMember = (id) => {
     axios({
-      url: `/research/${id}`,
+      url: `http://localhost:3001/research/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ const ResarchView = () => {
 
   const DeleteMember = (id) => {
     axios({
-      url: `/research/${id}`,
+      url: `http://localhost:3001/research/${id}`,
       method: 'delete',
     }).then((res) => {
       alert("Delete Student successfully");

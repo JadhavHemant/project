@@ -14,7 +14,7 @@ const InterviewTable = () => {
 
     const getData = () => {
         axios({
-            url: `/api/get/memberinterviewrecords`,
+            url: `http://localhost:3001/api/get/memberinterviewrecords`,
             method: 'GET',
             contentType: 'application/json',
         }).then((res) => {
@@ -26,7 +26,7 @@ const InterviewTable = () => {
 
     const DeleteMember = (id) => {
         axios({
-            url: `/api/memberinterviewrecords/${id}`,
+            url: `http://localhost:3001/api/memberinterviewrecords/${id}`,
             method: 'delete',
         }).then((res) => {
             alert("Delete member successfully");

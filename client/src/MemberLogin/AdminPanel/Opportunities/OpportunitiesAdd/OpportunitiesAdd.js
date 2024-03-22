@@ -45,7 +45,7 @@ const OpportunitiesAdd = () => {
 
     console.log(playload);
     axios({
-      url: `/api/opportunity`,
+      url: `http://localhost:3001/api/opportunity`,
       method: 'POST',
       data: playload,
       headers: {
@@ -92,7 +92,7 @@ const OpportunitiesAdd = () => {
     e.preventDefault();
     try {
       if (selectedType === 'custom') {
-        await axios.post('/api/opportunity_types', { opportunity_type: newOpportunityType });
+        await axios.post('http://localhost:3001/api/opportunity_types', { opportunity_type: newOpportunityType });
         setNewOpportunityType('');
         fetchOpportunityTypes();
       } else {

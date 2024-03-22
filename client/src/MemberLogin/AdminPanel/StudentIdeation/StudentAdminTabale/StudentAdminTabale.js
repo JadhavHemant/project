@@ -13,7 +13,7 @@ const StudentAdminTabale = () => {
 
     const getData = () => {
         axios({
-            url: "/ideation",
+            url: "http://localhost:3001/ideation",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const StudentAdminTabale = () => {
 
     const Delete = (id) => {
         axios({
-            url: `/delete/ideation/${id}`,
+            url: `http://localhost:3001/delete/ideation/${id}`,
             method: 'DELETE',
         })
             .then((res) => {

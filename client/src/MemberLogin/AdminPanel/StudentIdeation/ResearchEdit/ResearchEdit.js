@@ -24,7 +24,7 @@ const ResearchEdit = () => {
   }, []);
 
   const GetMember = (id) => {
-    axios.get(`/researchref/${id}`)
+    axios.get(`http://localhost:3001/researchref/${id}`)
       .then((res) => {
         const data = res.data;
         name.current.value = data.name;
@@ -62,7 +62,7 @@ const ResearchEdit = () => {
       return;
     }
 
-    axios.put(`/researchref/${ids}`, formData)
+    axios.put(`http://localhost:3001/researchref/${ids}`, formData)
       .then(() => {
         alert("Reference updated successfully");
         navigate('/admin/refrenceaddtableresearch');

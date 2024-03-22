@@ -13,7 +13,7 @@ const ResarchTable = () => {
 
     const getData = () => {
         axios({
-            url: "/research",
+            url: "http://localhost:3001/research",
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const ResarchTable = () => {
 
     const Delete = (id) => {
         axios({
-            url: `/research/${id}`,
+            url: `http://localhost:3001/research/${id}`,
             method: 'DELETE',
         })
             .then((res) => {

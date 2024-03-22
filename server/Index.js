@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const multer = require('multer');
+const multer = require('multer');
 const path = require('path');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -24,6 +24,7 @@ const pool = new Pool({
 // Middleware
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
+app.use('/logos', express.static('logos'));
 
 // get a list of student
 app.get('/ideation', async (req, res) => {
@@ -153,7 +154,7 @@ setInterval(updateFlagsI, 3600000);
 // PUT API endpoint
 app.put('/update/ideation/:id', async (req, res) => {
   try {
-    const { id } = req.params; 
+    const { id } = req.params;
     const {
       student_name,
       student_class,
@@ -1022,7 +1023,7 @@ app.get('/api/members', async (req, res) => {
 
 app.post('/add/members/studentids', async (req, res) => {
   try {
-    const { id_student } = req.body; 
+    const { id_student } = req.body;
 
     const defaultValues = {
       member_name: null,
@@ -1044,7 +1045,7 @@ app.post('/add/members/studentids', async (req, res) => {
     };
 
     const dataToInsert = { ...defaultValues, id_student };
-    const currentDate = new Date(); 
+    const currentDate = new Date();
     const result = await pool.query(
       'INSERT INTO members  (member_name, member_code, member_phone, member_email, member_password, date_of_registration, photo_image, resume, id_card_proof, other_documents, geolocation, specialisation, address, city, state, pincode, technology, id_student) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *',
       [
@@ -1053,7 +1054,7 @@ app.post('/add/members/studentids', async (req, res) => {
         dataToInsert.member_phone,
         dataToInsert.member_email,
         dataToInsert.member_password,
-        currentDate, 
+        currentDate,
         dataToInsert.photo_image,
         dataToInsert.resume,
         dataToInsert.id_card_proof,
@@ -1069,10 +1070,10 @@ app.post('/add/members/studentids', async (req, res) => {
       ]
     );
 
-    res.json(result.rows[0]); 
+    res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' }); 
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -1236,7 +1237,7 @@ async function updateFlags() {
 
 updateFlags();
 
-setInterval(updateFlags, 3600000); 
+setInterval(updateFlags, 3600000);
 
 // end poin of login
 
@@ -1625,12 +1626,12 @@ app.get('/api/interestedpeople', async (req, res) => {
 
 // POST API to add a new interested person
 app.post('/api/interestedpeople', async (req, res) => {
-  const { interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email,  } = req.body;
+  const { interested_name, email, phonenumber, interest_id, opportunity_id, opportunity_name, memberid, member_email, } = req.body;
   try {
     const client = await pool.connect();
     const result = await client.query(
       'INSERT INTO interested_people_table (interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email ) VALUES ($1, $2, $3, $4, $5,$6,$7,$8) RETURNING *',
-      [interested_name, email, phonenumber, interest_id, opportunity_id,opportunity_name,memberid,member_email ]
+      [interested_name, email, phonenumber, interest_id, opportunity_id, opportunity_name, memberid, member_email]
     );
     client.release();
     res.status(201).json(result.rows[0]);
@@ -1699,12 +1700,14 @@ app.get('/api/selection_status/result/:flagValue', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+/////////////////////////////////
 ////////////////////////////////
 app.post('/api/selection_status/result', async (req, res) => {
-  const {applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid} = req.body;
+  const { applicant_name, phonenumber, selection_status, opportunity_name, opportunity_id, flag, memberid } = req.body;
   try {
     const client = await pool.connect();
-    const result = await client.query('INSERT INTO selection_table (applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid ) VALUES ($1, $2, $3,$4,$5,$6,$7) RETURNING *',[applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid] );
+    const result = await client.query('INSERT INTO selection_table (applicant_name,phonenumber,selection_status,opportunity_name,opportunity_id,flag,memberid ) VALUES ($1, $2, $3,$4,$5,$6,$7) RETURNING *', [applicant_name, phonenumber, selection_status, opportunity_name, opportunity_id, flag, memberid]);
     client.release();
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -1712,24 +1715,54 @@ app.post('/api/selection_status/result', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-  ///////////////////
-  app.get('/api/selection_status/result/:memberid', async (req, res) => {
-    const { memberid } = req.params;
-    try {
-      const client = await pool.connect();
-      const result = await client.query('SELECT * FROM selection_table WHERE memberid = $1', [memberid]);
-      client.release();
-      res.status(200).json(result.rows);
-    } catch (error) {
-      console.error('Error retrieving data:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
+///////////////////
+app.get('/api/selection_status/result/:memberid', async (req, res) => {
+  const { memberid } = req.params;
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM selection_table WHERE memberid = $1', [memberid]);
+    client.release();
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 /////////////////////////////////////////
-app.get('/api/selection_status/result', async (req, res) => {
+app.put('/api/selection_status/update/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const client = await pool.connect();
+    const result = await client.query('UPDATE selection_table SET flag = $1 WHERE id = $2 RETURNING *', [false, id]);
+    client.release();
+
+    if (result.rowCount === 0) {
+      res.status(404).json({ error: 'Entry not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error('Error updating flag:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+////////////////////////////////////////
+app.get('/api/selection_status/result/all', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM selection_table');
+    client.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/selection_status/result', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM selection_table WHERE flag = $1', ['true']);
     client.release();
     res.json(result.rows);
   } catch (error) {
@@ -1814,7 +1847,7 @@ app.get('/api/opportunity', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM Opportunities');
-    
+
     const opportunities = result.rows;
     client.release();
 
@@ -1862,8 +1895,22 @@ app.delete('/api/delete/opportunities/:id', async (req, res) => {
 });
 
 
-// POST endpoint to add a new opportunity to the database
-app.post('/api/opportunity', async (req, res) => {
+// Set up multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the folder where files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Rename files to prevent collisions
+  }
+});
+
+// Create the multer instance
+const upload = multer({ storage: storage });
+
+// Modify your route to handle file upload
+app.post('/api/opportunity', upload.single('photo'), async (req, res) => {
+  // Extract other form fields from req.body
   const {
     opportunity_type_id,
     opportunity_name,
@@ -1886,12 +1933,16 @@ app.post('/api/opportunity', async (req, res) => {
     revised_budget,
     email,
     member_id,
+    file_upload
   } = req.body;
+
+  // Get the file name from req.file
+  const photo = req.file.filename;
 
   try {
     const client = await pool.connect();
     const result = await client.query(
-      'INSERT INTO Opportunities (opportunity_type_id, opportunity_name, opportunity_description, opportunity_provider, opportunity_start_date, opportunity_end_date, opportunity_problem_statement, opportunity_expected_solution, opportunity_expected_work_zone, opportunity_expected_work_time, opportunity_work_type, opportunity_budget_available, opportunity_estimate_budget, budget_currency, opportunity_resource_volume, opportunity_status, opportunity_code, revised_volume, revised_budget, create_date,email,member_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, CURRENT_DATE,$20,$21) RETURNING *',
+      'INSERT INTO Opportunities (opportunity_type_id, opportunity_name, opportunity_description, opportunity_provider, opportunity_start_date, opportunity_end_date, opportunity_problem_statement, opportunity_expected_solution, opportunity_expected_work_zone, opportunity_expected_work_time, opportunity_work_type, opportunity_budget_available, opportunity_estimate_budget, budget_currency, opportunity_resource_volume, opportunity_status, opportunity_code, revised_volume, revised_budget, create_date, email, member_id, file_upload, photos) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, CURRENT_DATE, $20, $21, $22, $23)',
       [
         opportunity_type_id,
         opportunity_name,
@@ -1914,6 +1965,8 @@ app.post('/api/opportunity', async (req, res) => {
         revised_budget,
         email,
         member_id,
+        file_upload, 
+        photo 
       ]
     );
     client.release();
@@ -1924,6 +1977,7 @@ app.post('/api/opportunity', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 ///////////////////////////////////////
@@ -2147,10 +2201,10 @@ app.post('/send-email', async (req, res) => {
     return res.status(400).json({ error: 'recipientEmails array is empty' });
   }
   let transporter = nodemailer.createTransport({
-    service: 'Gmail', 
+    service: 'Gmail',
     auth: {
-      user: 'jadhavhemantbalkrushna@gmail.com', 
-      pass: 'hyct mbxz cmhj rimd', 
+      user: 'jadhavhemantbalkrushna@gmail.com',
+      pass: 'hyct mbxz cmhj rimd',
     }
   });
 
@@ -2162,9 +2216,9 @@ app.post('/send-email', async (req, res) => {
     text += '\nFor details, please log on to our site.\n\nThanks,\nThe pcombinator and passionit team';
 
     let mailOptions = {
-      from: 'jadhavhemantbalkrushna@gmail.com', 
-      to: recipientEmails.join(','), 
-      subject: 'Opportunity', 
+      from: 'jadhavhemantbalkrushna@gmail.com',
+      to: recipientEmails.join(','),
+      subject: 'Opportunity',
       text: text
     };
 
@@ -2470,8 +2524,458 @@ app.get('/api/member_interview_records/:interviewId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// /////////////////////////////////////////////
+// Create a new member reference
+app.post('/api/memberrefrence', async (req, res) => {
+  try {
+    const { name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone, membre_id } = req.body;
+    const result = await pool.query('INSERT INTO refre_members (name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone,membre_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10) RETURNING *',
+      [name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone, membre_id]);
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get all students
+app.get('/api/memberrefrence', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM refre_members');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get a specific student by ID
+app.get('/api/memberrefrence/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM refre_members WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Update a specific student by ID
+app.put('/api/memberrefrence/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone } = req.body;
+
+    const result = await pool.query('UPDATE refre_members SET name = $1, srnumber = $2, referencename = $3, college = $4, discipline = $5, cla_ss = $6, rollnumber = $7, referenceemail = $8, referencephone = $9 WHERE id = $10 RETURNING *',
+      [name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone, id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Delete a specific student by ID
+app.delete('/api/memberrefrence/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('DELETE FROM refre_members WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json({ message: 'Student deleted successfully' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
+// ///////////////////////////////
+app.post('/api/resourcemaster', async (req, res) => {
+  try {
+    const { resourcename, designation, status, empcode, fromdate, todate } = req.body;
+    const result = await pool.query('INSERT INTO resourcemaster (resourcename, designation, status,empcode,fromdate,todate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [resourcename, designation, status, empcode, fromdate, todate]);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get all students
+
+app.get('/api/resourcemaster', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM resourcemaster');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get a specific student by ID
+app.get('/api/resourcemaster/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM refre_members WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Update a specific student by ID
+app.put('/api/resourcemaster/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone } = req.body;
+
+    const result = await pool.query('UPDATE refre_members SET name = $1, srnumber = $2, referencename = $3, college = $4, discipline = $5, cla_ss = $6, rollnumber = $7, referenceemail = $8, referencephone = $9 WHERE id = $10 RETURNING *',
+      [name, srnumber, referencename, college, discipline, cla_ss, rollnumber, referenceemail, referencephone, id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Delete a specific student by ID
+app.delete('/api/resourcemaster/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('DELETE FROM refre_members WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json({ message: 'Student deleted successfully' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+////////////////////////////////////////////////
+
+app.post('/send-email/single/usr/data', async (req, res) => {
+  const { recipientEmail } = req.body;
+
+  try {
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: "jadhavhemantbalkrushna@gmail.com",
+        pass: "hyct mbxz cmhj rimd",
+      },
+    });
+
+    let mailOptions = {
+      from: "jadhavhemantbalkrushna@gmail.com",
+      to: recipientEmail,
+      subject: "check",
+      text: "testing",
+    };
+
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.response);
+
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Error sending email' });
+  }
+});
+////////////////////////////////////////////////////////////////////////////////////////////////
+app.post('/api/opportunity_incentive', async (req, res) => {
+  try {
+    const { opportunity_id, designation, incentivepercentage } = req.body;
+    const result = await pool.query('INSERT INTO opportunity_incentive (opportunity_id, designation, incentivepercentage) VALUES ($1, $2, $3) RETURNING *',
+      [opportunity_id, designation, incentivepercentage]);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get all students
+
+app.get('/api/opportunity_incentive', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM opportunity_incentive');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get a specific student by ID
+app.get('/api/opportunity_incentive/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM opportunity_incentive WHERE incentive_id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Update a specific student by ID
+
+app.put('/api/opportunity_incentive/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { opportunity_id, designation, incentivepercentage } = req.body;
+
+    const result = await pool.query('UPDATE opportunity_incentive SET opportunity_id = $1, designation = $2, incentivepercentage = $3 WHERE incentive_id = $4 RETURNING *',
+      [opportunity_id, designation, incentivepercentage, id]); 
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Opportunity incentive not found' }); 
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Delete a specific student by ID
+app.delete('/api/opportunity_incentive/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('DELETE FROM opportunity_incentive WHERE incentive_id = $1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json({ message: ' deleted successfully' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+const storage1 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'logos/'); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); 
+  } 
+});
+const uploadS = multer({ storage: storage1 });
+app.post('/api/create-group', uploadS.single('groupLogo'), async (req, res) => {
+  const { memberid, groupcode, groupname, groupcaption, groupwebsitelink, group_owner, email, phone, transactionvalue } = req.body;
+  const groupLogoPath = req.file ? req.file.path : null;
+  try {
+    const client = await pool.connect();
+    const query = `INSERT INTO group_s (memberid, groupcode, groupname, groupcaption, groupwebsitelink, group_owner, email, phone, transactionvalue, grouplogo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const values = [memberid, groupcode, groupname, groupcaption, groupwebsitelink, group_owner, email, phone, transactionvalue, groupLogoPath];
+    await client.query(query, values);
+    client.release();
+    res.status(201).json({ message: 'Group created successfully' });
+  } catch (error) {
+    console.error('Error creating group:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get all groups
+app.get('/api/groups', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM group_s');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get a specific student by ID
+app.get('/api/group/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM group_s WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Update a specific student by ID
+app.put('/api/group/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {memberid, groupcode, groupname, grouplogo, groupcaption, groupwebsitelink, group_owner, email, phone, transactionvalue } = req.body;
+    const result = await pool.query('UPDATE group_s SET memberid=$1, groupcode=$2, groupname=$3, grouplogo=$4, groupcaption=$5, groupwebsitelink=$6, group_owner=$7, email=$8, phone=$9, transactionvalue=$10 WHERE id = $11 RETURNING *',
+      [memberid, groupcode, groupname, grouplogo, groupcaption, groupwebsitelink, group_owner, email, phone, transactionvalue, id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Student not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Delete a specific student by ID
+app.delete('/api/groups/:id', async (req, res) => {
+  const groupId = req.params.id;
+  try {
+    const client = await pool.connect();
+    await client.query('DELETE FROM group_member WHERE group_id = $1', [groupId]);
+    const result = await client.query('DELETE FROM group_s WHERE id = $1 RETURNING *', [groupId]);
+    const deletedGroup = result.rows[0];
+    if (deletedGroup) {
+      res.status(200).json({ message: 'Group deleted successfully', deletedGroup });
+    } else {
+      res.status(404).json({ error: 'Group not found' });
+    }
+    client.release();
+  } catch (error) {
+    console.error('Error deleting group', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// /////////////////////////////////////////////////////////////////////////////////////////////
+app.post('f', async (req, res) => {
+  try {
+    const { resourcename, designation, status, empcode, fromdate, todate } = req.body;
+    const result = await pool.query('INSERT INTO group_member (resourcename, designation, status,empcode,fromdate,todate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [resourcename, designation, status, empcode, fromdate, todate]);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get all students
+
+app.get('/api/group_member', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM group_member');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get a specific student by ID
+app.get('/api/group_member/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM group_member WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Update a specific group member by ID
+app.put('/api/group_member/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { group_id, memberid, membername, email, phone, transactionvalue } = req.body;
+    const result = await pool.query(
+      'UPDATE group_member SET group_id=$1, memberid=$2, membername=$3, email=$4, phone=$5, transactionvalue=$6 WHERE id = $7 RETURNING *',
+      [group_id, memberid, membername, email, phone, transactionvalue, id]
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Group member not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// Delete a specific group member by ID
+app.delete('/api/group_member/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Delete related records from other tables first
+    await pool.query('DELETE FROM other_table WHERE group_member_id = $1', [id]);
+
+    // Now delete the record from group_member table
+    const result = await pool.query('DELETE FROM group_member WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Group member not found' });
+    } else {
+      res.json({ message: 'Group member deleted successfully' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+       
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

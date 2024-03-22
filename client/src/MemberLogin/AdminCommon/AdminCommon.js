@@ -105,6 +105,10 @@ const AdminCommon = () => {
         <Link to="refrenceaddtableresearch"></Link>
         <Link to="refrenceaddviewresearch"></Link>
         <Link to="refrenceaddupdateresarch"></Link>
+
+
+        <Link to="resourcemaster"></Link>
+
       </div>
       <div>
         <Outlet />

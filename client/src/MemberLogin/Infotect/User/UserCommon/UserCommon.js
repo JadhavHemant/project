@@ -18,6 +18,9 @@ const UserCommon = () => {
                   <Link to="research">Research</Link>
                   <Link to="oppo">Eol</Link>
                   <Link to="applyed">Applicatons</Link>
+                  <Link to="refrence">Reference</Link>
+                  <Link to="memberviewscard">Member View</Link>
+
                   <Link to="/">Log-Out</Link>
                 </div>
               </div>
@@ -46,6 +49,8 @@ const UserCommon = () => {
                 <Link to="research">Research</Link>
                 <Link to="oppo">Eol</Link>
                 <Link to="applyed">Applicatons</Link>
+                <Link to="refrence">Reference</Link>
+                <Link to="memberviewscard">Member View</Link>
                 <Link to="/">Log-Out</Link>
               </div>
             </div>
@@ -57,7 +62,12 @@ const UserCommon = () => {
       <Link to="createoppo"></Link>
       <Link to="viewint"></Link>
       <Link to="selectionStatus"></Link>
-      
+
+      <Link to="calculate"></Link>
+      <Link to="group"></Link>
+      <Link to="membergroup"></Link>
+      <Link to="addgroup"></Link>
+      <Link to="memberviewscard"></Link>
       {/* <div>
         <Link to="viewmember"></Link>
         <Link to="addmember"></Link>
