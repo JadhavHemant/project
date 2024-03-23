@@ -2798,7 +2798,7 @@ app.delete('/api/opportunity_incentive/:id', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const storage1 = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'logos/'); 
+    cb(null, 'logos'); 
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname); 

@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 const AddGroup = () => {
+    const navigate = useNavigate();
     const groupcode = useRef();
   const groupname = useRef();
   const groupcaption = useRef();
@@ -16,7 +19,9 @@ const AddGroup = () => {
   };
 
   const AddData = async () => {
+    var memberid= localStorage.getItem("user_id");
     const formData = new FormData();
+    formData.append('memberid', memberid);
     formData.append('groupcode', groupcode.current.value);
     formData.append('groupname', groupname.current.value);
     formData.append('groupcaption', groupcaption.current.value);
@@ -37,6 +42,7 @@ const AddGroup = () => {
       });
       console.log('Response:', response.data);
       alert('Group created successfully!');
+      navigate("/user/group")
     } catch (error) {
       console.error('Error:', error);
       alert('Error creating group.');
@@ -76,7 +82,7 @@ const AddGroup = () => {
 
                                         <div class="md:col-span-2">
                                             <label for="full_name">group website link</label>
-                                            <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={groupwebsitelink} />
+                                            <input type="url" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={groupwebsitelink} />
                                         </div>
 
                                         <div class="md:col-span-2">
@@ -90,12 +96,12 @@ const AddGroup = () => {
                                         </div>
 
                                         <div class="md:col-span-2">
-                                            <label for="city">phone</label>
+                                            <label>phone</label>
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={phone} />
                                         </div>
 
                                         <div class="md:col-span-2">
-                                            <label for="city">transaction value</label>
+                                            <label>transaction value</label>
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={transactionvalue} />
                                         </div>
 

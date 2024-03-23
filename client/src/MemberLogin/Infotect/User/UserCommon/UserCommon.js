@@ -10,7 +10,7 @@ const UserCommon = () => {
         <nav>
           <div className="mx-auto max-w-7xl ">
             <div className="flex justify-between mx-auto w-5/5 ">
-              <div className="flex items-center justify-between my-2 lg:justify-end lg:gap-[400px]">
+              <div className="flex items-center justify-between my-2 lg:justify-end gap-[40px]">
                 <Link to=""> <img src={logo} alt="" className="h-[40px] w-[180px]" /></Link>
                 <div className="hidden gap-10 lg:flex">
                   <Link to="">About Us</Link>
@@ -20,6 +20,7 @@ const UserCommon = () => {
                   <Link to="applyed">Applicatons</Link>
                   <Link to="refrence">Reference</Link>
                   <Link to="memberviewscard">Member View</Link>
+                  <Link to="group">Groups</Link>
 
                   <Link to="/">Log-Out</Link>
                 </div>
@@ -51,6 +52,7 @@ const UserCommon = () => {
                 <Link to="applyed">Applicatons</Link>
                 <Link to="refrence">Reference</Link>
                 <Link to="memberviewscard">Member View</Link>
+                <Link to="group">Groups</Link>
                 <Link to="/">Log-Out</Link>
               </div>
             </div>
