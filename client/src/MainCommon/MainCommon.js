@@ -59,6 +59,10 @@ import Group from '../MemberLogin/Infotect/User/Calulateper/Group';
 import Greoupmember from '../MemberLogin/Infotect/User/Calulateper/Groupmember';
 import AddGroup from '../MemberLogin/Infotect/User/Calulateper/AddGroup';
 import MembercardView from '../MemberLogin/Infotect/User/MemberView/MembercardView';
+import Incentive from '../MemberLogin/Infotect/User/Calulateper/ResourcePage/Incentive/Incentive';
+import Update from '../MemberLogin/Infotect/User/Calulateper/ResourcePage/Incentive/Update';
+import AddgroupMember from '../MemberLogin/Infotect/User/Calulateper/AddgroupMember/AddgroupMember';
+import Footer from '../MemberLogin/Infotect/User/Footer/Footer';
 
 
 
@@ -86,6 +90,10 @@ const MainCommon = () => {
 
                      <Route path='addgroup' element={<AddGroup />} />
                      <Route path='memberviewscard' element={<MembercardView />} />
+                     <Route path='incentive' element={<Incentive />} />
+                     <Route path='incentiveupdate' element={<Update />} />
+                     <Route path='memberaddgroup' element={<AddgroupMember />} />
+
                   </Route>
 
 

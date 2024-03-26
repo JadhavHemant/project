@@ -32,12 +32,15 @@ const Calulateper = () => {
     })
 
   }
-
+  const UpdateDate=(id)=>{
+    alert(id)
+  }
 
 
   return (
     <>
       <div class="max-w-5xl mx-auto pt-[30px] ">
+
         <div class="flex flex-col">
           <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <div class="inline-block min-w-full align-middle">
@@ -46,16 +49,16 @@ const Calulateper = () => {
                   <thead class="bg-[#7f7ff5] dark:bg-[#8b8bf7]">
                     <tr>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                        Member Id
+                       Id
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                        Member Name
+                      opportunity id
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                        Phone Number
+                      designation
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                        Opportunity
+                      incentive percentage
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
                         Action
@@ -73,6 +76,7 @@ const Calulateper = () => {
                           <td class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">{d.incentivepercentage}</td>
                           <td class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-1 " onClick={() => DeteteData(d.incentive_id)}>Delete</button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-1 " onClick={() => UpdateDate(d.incentive_id)}>Update</button>
                           </td>
                         </tr>
                       ))

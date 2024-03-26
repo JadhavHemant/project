@@ -147,6 +147,7 @@ const MemberAdd = () => {
     const organization_name = useRef();
     const designation_role = useRef();
     const country = useRef();
+    const skills=useRef();
     const addData = () => {
         var playload = {
             member_name: member_name.current.value,
@@ -179,6 +180,7 @@ const MemberAdd = () => {
             designation_role: designation_role.current.value,
             country: country.current.value,
             interested_mentoring: ment,
+            skills:skills.current.value,
         };
         console.log(playload);
         axios({
@@ -393,13 +395,21 @@ const MemberAdd = () => {
                                         <div className="mt-2">
                                             <input type="text" ref={pincode} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
-                                    </div>
+                                            </div>
                                     <div className="sm:col-span-1">
                                         <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
                                             Technology :
                                         </label>
                                         <div className="mt-2">
                                             <input type="text" ref={technology} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
+                                        </div>
+                                    </div>
+                                    <div className="sm:col-span-1">
+                                        <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                        skills :
+                                        </label>
+                                        <div className="mt-2">
+                                            <input type="text" ref={skills} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div className="sm:col-span-1">

@@ -1114,6 +1114,8 @@ app.post('/api/add/members', async (req, res) => {
     interested_investments,
     interested_mentoring,
     membership_frequency_renewal,
+    skills,
+    mephoto
 
   } = req.body;
 
@@ -1127,7 +1129,7 @@ app.post('/api/add/members', async (req, res) => {
     const interested_membership = flag;
     const membership_status = flag ? 'active' : 'inactive';
     const result = await client.query(
-      'INSERT INTO members (member_name, member_code, member_phone, member_email, member_password, date_of_registration, date_of_expire, photo_image, resume, id_card_proof, other_documents, geolocation, specialisation, address, city, state, pincode, technology, roll_number, class_member, discipline, membergroup, membercategory, membertype, id_student, organization_name, designation_role, country, interested_membership, interested_research, interested_startup, interested_investments, interested_mentoring, membership_duration, membership_frequency_renewal, membership_status, flag) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37) RETURNING *',
+      'INSERT INTO members (member_name, member_code, member_phone, member_email, member_password, date_of_registration, date_of_expire, photo_image, resume, id_card_proof, other_documents, geolocation, specialisation, address, city, state, pincode, technology, roll_number, class_member, discipline, membergroup, membercategory, membertype, id_student, organization_name, designation_role, country, interested_membership, interested_research, interested_startup, interested_investments, interested_mentoring, membership_duration, membership_frequency_renewal, membership_status, flag,skills,mephoto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37,$38,$39) RETURNING *',
       [
         member_name,
         member_code,
@@ -1165,7 +1167,9 @@ app.post('/api/add/members', async (req, res) => {
         membership_duration,
         membership_frequency_renewal,
         membership_status,
-        flag
+        flag,
+        skills,
+        mephoto
       ]
     );
 
@@ -2686,6 +2690,29 @@ app.delete('/api/resourcemaster/:id', async (req, res) => {
 
 
 ////////////////////////////////////////////////
+app.post('/send-emailfour/ids', async (req, res) => {
+  try {
+      const transporter = nodemailer.createTransport({
+          service: 'Gmail', 
+          auth: {
+            user: "jadhavhemantbalkrushna@gmail.com",
+            pass: "hyct mbxz cmhj rimd",
+          }
+      });
+      const { email1, email2, email3, email4 } = req.body;
+      const mailOptions = {
+          from: 'jadhavhemantbalkrushna@gmail.com',
+          to: [email1, email2, email3, email4].filter(email => email !== ''),
+          subject: 'Test Email',
+          text: 'This is a test email sent from Node.js.'
+      };
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ message: 'Email sent successfully' });
+      console.log("Email sent successfully");
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
 
 app.post('/send-email/single/usr/data', async (req, res) => {
   const { recipientEmail } = req.body;
@@ -2715,6 +2742,7 @@ app.post('/send-email/single/usr/data', async (req, res) => {
     res.status(500).json({ error: 'Error sending email' });
   }
 });
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 app.post('/api/opportunity_incentive', async (req, res) => {
   try {

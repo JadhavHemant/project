@@ -12,7 +12,7 @@ const UserCommon = () => {
             <div className="flex justify-between mx-auto w-5/5 ">
               <div className="flex items-center justify-between my-2 lg:justify-end gap-[40px]">
                 <Link to=""> <img src={logo} alt="" className="h-[40px] w-[180px]" /></Link>
-                <div className="hidden gap-10 lg:flex">
+                <div className="hidden gap-7 lg:flex">
                   <Link to="">About Us</Link>
                   <Link to="ideation">Ideation</Link>
                   <Link to="research">Research</Link>
@@ -21,7 +21,8 @@ const UserCommon = () => {
                   <Link to="refrence">Reference</Link>
                   <Link to="memberviewscard">Member View</Link>
                   <Link to="group">Groups</Link>
-
+                  <Link to="membergroup">Memer Group</Link>
+                  <Link to="calculate">incentive</Link>
                   <Link to="/">Log-Out</Link>
                 </div>
               </div>
@@ -53,6 +54,8 @@ const UserCommon = () => {
                 <Link to="refrence">Reference</Link>
                 <Link to="memberviewscard">Member View</Link>
                 <Link to="group">Groups</Link>
+                <Link to="membergroup">Memer Group</Link>
+                <Link to="calculate">incentive</Link>
                 <Link to="/">Log-Out</Link>
               </div>
             </div>
@@ -66,10 +69,12 @@ const UserCommon = () => {
       <Link to="selectionStatus"></Link>
 
       <Link to="calculate"></Link>
+      <Link to="incentive"></Link>
+      <Link to="incentiveupdate"></Link>
       <Link to="group"></Link>
-      <Link to="membergroup"></Link>
       <Link to="addgroup"></Link>
       <Link to="memberviewscard"></Link>
+      <Link to="memberaddgroup"></Link>
       {/* <div>
         <Link to="viewmember"></Link>
         <Link to="addmember"></Link>
