@@ -25,6 +25,7 @@ const pool = new Pool({
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/logos', express.static('logos'));
+app.use('/members', express.static('members'));
 
 // get a list of student
 app.get('/ideation', async (req, res) => {
@@ -1079,8 +1080,19 @@ app.post('/add/members/studentids', async (req, res) => {
 
 
 ////////////////////////////////////////////////////////////////
+// Set up multer storage
+const storage2 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'members/'); // Specify the folder where files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Rename files to prevent collisions
+  }
+});
+// Create the multer instance
+const member = multer({ storage: storage2 });
 
-app.post('/api/add/members', async (req, res) => {
+app.post('/api/add/members',member.single('photo'), async (req, res) => {
   const {
     member_name,
     member_code,
