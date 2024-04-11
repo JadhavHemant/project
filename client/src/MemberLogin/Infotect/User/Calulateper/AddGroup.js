@@ -30,6 +30,7 @@ const AddGroup = () => {
     formData.append('email', email.current.value);
     formData.append('phone', phone.current.value);
     formData.append('transactionvalue', transactionvalue.current.value);
+    
     if (file) {
       formData.append('groupLogo', file);
     }

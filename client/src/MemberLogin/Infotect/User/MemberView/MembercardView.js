@@ -1,63 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from 'axios'
-// const MembercardView = () => {
-//     useEffect(() => {
-//         Getdata();
-//     }, [])
-
-//     const [data, setData] = useState([]);
-
-//     // const memberid = localStorage.getItem("user_id");
-//     const Getdata = () => {
-//         axios({
-//             url: `http://localhost:3001/api/members`,
-//             method: 'GET',
-//             contentType: 'application/json',
-//         }).then((res) => {
-//             setData(res.data);
-//         }).catch((err) => {
-//             alert("error")
-//         })
-//     }
-
-//     // const Updatedata = (id) => {
-//     //     const Playload={flag:false}
-//     //     axios({
-//     //         url: `http://localhost:3001/api/selection_status/update/${id}`,
-//     //         method: "put",
-//     //         data:Playload,
-//     //         contentType: "application/json",
-//     //     }).then((res)=>{
-//     //         alert("success");
-//     //         Getdata();
-//     //     }).catch((err)=>{
-//     //     alert("error");
-//     //     })
-//     // }
-//     return (
-//         <>
-//             <div className="flex flex-wrap justify-center">
-//                 {data.map((d, k) => (
-//                     <div className="flex mb-2 Pt-4  p-4" key={k} >
-//                         <div className="max-w-sm overflow-hidden shadow-lg mx-auto border border-[orange] rounded-lg hover:shadow-1xl hover:shadow-[#111111] ">
-//                             <div className="px-8 py-4 bg-[#ffffff] w-[600px]">
-//                                 <p className="text-[black] text-base">Member Name: {d.member_name}</p>
-//                                 <p className="text-[black] text-base">Phone Number : {d.member_phone}</p>
-//                                 <p className="text-[black] text-base">technology : {d.technology}</p>
-//                                 <p className="text-[black] text-base">discipline/Branch : {d.discipline}</p>
-//                                 <p className="text-[black] text-base">city : {d.city}</p>
-//                                 <p className="text-[black] text-base">state : {d.state}</p>
-//                                 <p >skills : <span className='text-start border border-[black] w-[200px] p-[3px] pl-[4px] pr-[4px]'>{d.skills}</span></p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 ))}
-//             </div>
-//         </>
-//     )
-// }
-
-// export default MembercardView; 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -88,30 +28,30 @@ const MembercardView = () => {
 
             <div className="flex flex-wrap justify-center">
                 {data.map((d, k) => (
-                    <div className="flex mb-2 Pt-4 p-4 " key={k}>
-                        <div className="max-w-sm overflow-hidden shadow-lg mx-auto border border-[#050505] rounded-lg hover:shadow-1xl hover:shadow-[#111111] ">
-                            <div className="px-8 py-4 bg-[#ffffff] w-[600px]  bg-gradient-to-r from-green-200 via-green-300 to-blue-500">
-                                <p className="text-[black] text-base">Member Name: {d.member_name}</p>
-                                <p className="text-[black] text-base">Phone Number : {d.member_phone}</p>
-                                <p className="text-[black] text-base">Technology : {d.technology}</p>
-                                <p className="text-[black] text-base">Discipline/Branch : {d.discipline}</p>
-                                <p className="text-[black] text-base">City : {d.city}</p>
-                                <p className="text-[black] text-base pb-2">State : {d.state}</p>
-                                <p className='text-cenetr'>Skills :
-                                    {d.skills.split(',').map((skill, index) => (
-                                        <span key={index} className='border border-[#000000]  p-[4px]  rounded-[10px] underline text-center mt-[10px]' style={{ marginRight: '5px' }}>
+                    <div className="flex mb-2 pt-4 p-4" key={k}>
+                        <div className="max-w-sm overflow-hidden shadow-lg mx-auto border border-[#050505] rounded-lg hover:shadow-1xl hover:shadow-[#111111] hover:border-[#000000] hover:border-[2px]">
+                            <div className='grid grid-cols-1 md:grid-cols-2'>
+                                <div className="px-8 py-4 bg-[#ffffff] w-[600px] cursor-pointer">
+                                    <p className="text-[black] text-base">Member Name: {d.member_name}</p>
+                                    <p className="text-[black] text-base">Technology: {d.technology}</p>
+                                    <p className="text-[black] text-base">Discipline/Branch: {d.discipline}</p>
+                                    <p className="text-[black] text-base">City: {d.city}</p>
+                                    <p className="text-[black] text-base pb-2">State: {d.state}</p>
+                                    <p className='pb-2'>Skills: {d.skills && d.skills.split(',').map((skill, index) => (
+                                        <span key={index} className='p-[4px] rounded-[10px] hover:underline text-[#0e0d0d] cursor-pointer' style={{ marginRight: '5px' }}>
                                             {skill.trim()}
                                         </span>
                                     ))}
-                                </p>
+                                    </p>
+                                </div>
+                                <div className="flex justify-center items-center">
+                                    <img src={`http://localhost:3001/uploads/${d.photo}`} className='w-[80px] h-[80px] border border-black rounded-lg' alt={d.member_name} />
+                                </div>
                             </div>
                         </div>
                     </div>
                 ))}
-                
             </div>
-            
-
         </>
     );
 };

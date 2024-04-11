@@ -74,10 +74,11 @@ India@5555
 file upload
 image upload
 
-opportunity_incentive (opportunityid, designation, incentivepercentage)
+opportunity_incentive (categoryid, opportunityid, designation, incentivepercentage)
 group(memberid,groupcode, groupname, grouplogo, groupcaption, groupwebsitelink, group owner, email, phone, transactionvalue)
 group_member(groupmemberid, memberid, membername, email, phohe,transactionvalue)
 
 
 
-
+1] GOOGLE Analytics :-
+2] SEO :-

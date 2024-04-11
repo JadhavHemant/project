@@ -4,7 +4,7 @@ import login from './loginimg.png'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
-const  Registerm = () => {
+const Registerm = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null); // Use state to store end date
@@ -147,52 +147,72 @@ const  Registerm = () => {
     const organization_name = useRef();
     const designation_role = useRef();
     const country = useRef();
-    const addData = () => {
-        var playload = {
-            member_name: member_name.current.value,
-            member_code: member_code.current.value,
-            member_phone: member_phone.current.value,
-            member_email: member_email.current.value,
-            member_password: member_password.current.value,
-            photo_image: photo_image.current.value,
-            resume: resume.current.value,
-            id_card_proof: id_card_proof.current.value,
-            other_documents: other_documents.current.value,
-            geolocation: geolocation.current.value,
-            specialisation: specialisation.current.value,
-            address: address.current.value,
-            city: city.current.value,
-            state: state.current.value,
-            pincode: pincode.current.value,
-            technology: technology.current.value,
-            roll_number: roll_number.current.value,
-            class_member: class_member.current.value,
-            discipline: discipline.current.value,
-            membergroup: membergroup.current.value,
-            membercategory: membercategory.current.value,
-            membertype: membertype.current.value,
-            date_of_expire: endDate,
-            interested_startup: val,
-            interested_research: valr,
-            interested_investments: investor,
-            organization_name: organization_name.current.value,
-            designation_role: designation_role.current.value,
-            country: country.current.value,
-            interested_mentoring: ment,
-        };
-        console.log(playload);
-        axios({
-            url: '/api/add/members',
-            method: 'POST',
-            data: playload,
-            contentType: 'application/json',
-        }).then((res) => {
-            alert('success');
-            Reg();
-        }).catch((err) => {
-            alert("Check Details");
-        })
-    }
+    const skills = useRef();
+    const [file, setFile] = useState(null);
+
+    
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  console.log(file);
+
+    const addData = async() => {
+        const formData = new FormData();
+        formData.append('member_name', member_name.current.value);
+        formData.append('member_code', member_code.current.value);
+        formData.append('member_phone', member_phone.current.value);
+        formData.append('member_email', member_email.current.value);
+        formData.append('member_password', member_password.current.value);
+        formData.append('photo_image', photo_image.current.value);
+        formData.append('resume', resume.current.value);
+        formData.append('id_card_proof', id_card_proof.current.value);
+        formData.append('other_documents', other_documents.current.value);
+        formData.append('geolocation', geolocation.current.value);
+        formData.append('specialisation', specialisation.current.value);
+        formData.append('address', address.current.value);
+        formData.append('city', city.current.value);
+        formData.append('state', state.current.value);
+        formData.append('pincode', pincode.current.value);
+        formData.append('technology', technology.current.value);
+        formData.append('roll_number', roll_number.current.value);
+        formData.append('class_member', class_member.current.value);
+        formData.append('discipline', discipline.current.value);
+        formData.append('membergroup', membergroup.current.value);
+        formData.append('membercategory', membercategory.current.value);
+        formData.append('membertype', membertype.current.value);
+        formData.append('organization_name', organization_name.current.value);
+        formData.append('designation_role', designation_role.current.value);
+        formData.append('country', country.current.value);
+        formData.append('date_of_expire',endDate);
+        formData.append('interested_research', valr);
+        formData.append('interested_startup', val);
+        formData.append('interested_investments',investor);
+        formData.append('interested_mentoring', ment);
+        formData.append('skills', skills.current.value);
+
+        if (file) {
+            formData.append('photo', file);
+        }
+
+        console.log(formData);
+        try {
+            const response = await axios.post('http://localhost:3001/api/add/members', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('Response:', response.data);
+            alert('Member created successfully!');
+            navigate("/")
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error creating group.');
+        }
+    };
+
+
+
 
     const Reg = () => {
         navigate("/");
@@ -221,6 +241,8 @@ const  Registerm = () => {
         getGeolocation();
     }, []);
 
+ 
+
     return (
         <>
             <div className="grid w-full h-screen grid-cols-1 sm:grid-cols-2">
@@ -243,7 +265,6 @@ const  Registerm = () => {
                                                 className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
-
                                     <div className="sm:col-span-1">
                                         <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
                                             Password :
@@ -259,6 +280,10 @@ const  Registerm = () => {
                                         <div className="mt-2">
                                             <input type='text' ref={member_name} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
+                                    </div>
+                                    <div className="md:col-span-1">
+                                        <label htmlFor="photo">Photo</label>
+                                        <input type="file" className="h-10 border mt-1 rounded px-4 w-full p-1" onChange={handleFileChange} />
                                     </div>
 
                                     <div className="sm:col-span-1">
@@ -295,7 +320,7 @@ const  Registerm = () => {
                                     </div>
                                     <div className="sm:col-span-1">
                                         <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                            designation_role :
+                                            designation role :
                                         </label>
                                         <div className="mt-2">
                                             <input type="text" ref={designation_role} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
@@ -369,7 +394,6 @@ const  Registerm = () => {
                                             <input type="text" ref={city} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
-
                                     <div className="sm:col-span-1">
                                         <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
                                             State :
@@ -416,6 +440,14 @@ const  Registerm = () => {
                                         </label>
                                         <div className="mt-2">
                                             <input type="text" ref={discipline} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
+                                        </div>
+                                    </div>
+                                    <div className="sm:col-span-1">
+                                        <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Skils :
+                                        </label>
+                                        <div className="mt-1">
+                                            <input type="text" ref={skills} className=" p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[black] sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div className="sm:col-span-1">
@@ -479,8 +511,6 @@ const  Registerm = () => {
                                         <div >
                                             <input type="checkbox" onChange={() => handleMentChange('Yes')} /><label className='pl-2' >Interested in mentoring</label>
                                         </div>
-                                    </div>
-                                    <div class='md:col-span-2'>
                                         <div>
                                             <input type="checkbox" onChange={() => handleStartupChange('Yes')} /><label className='pl-2' > Interested in  Startup</label>
                                         </div>
@@ -488,7 +518,6 @@ const  Registerm = () => {
                                             <label> We will wish to build more awareness about your startup spin and connect you to investor, incubator and accelerators. By selecting this option, you give consent for us to send you information in form of news letter,  whatsapp and sms and also include your name and photo in our website if needed</label>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div className="flex items-center justify-start p-10 mt-6 gap-x-6 ">
                                     <button type="button" className="h-[78px] w-[300px] px-3 py-2 text-sm font-semibold text-white bg-[#D62102]  shadow-sm hover:bg-[#D62102] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[red]" onClick={() => addData()}>Submit</button>
@@ -505,4 +534,4 @@ const  Registerm = () => {
     )
 }
 
-export default  Registerm
+export default Registerm

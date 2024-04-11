@@ -39,19 +39,16 @@ const Opportunity = () => {
 
 
   useEffect(() => {
-    Calling();
-    getAllData();
-  }, []);
-
-
-  const Calling = () => {
     getOpporu();
     getOppor();
     scrollFirstHighlightIntoView();
     getOpportunityTypes();
-    // DateFilter();
     GetMemberData();
-  }
+    getAllData();
+  }, []);
+
+
+
   const getOpportunityTypes = () => {
     axios({
       url: 'http://localhost:3001/api/opportunity_types',
@@ -378,65 +375,62 @@ const Opportunity = () => {
               </Link>
             </div>
           </div>
-            <div className="grid grid-cols-1 gap-4">
-              {names !== null &&
-                names.map((d, k) => (
-                  
-                  <div className="border-solid border-2 border-[black] rounded-lg p-4 bg-[#ffffff]">
-                    <input type="checkbox" checked={checkboxStates[d.id]} onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email, d.member_id)} />
+          <div className="grid grid-cols-1 gap-4 ">
+            {names !== null &&
+              names.map((d, k) => (
+
+                <div className="border-solid border-2 border-[black] rounded-lg p-4  text-black">
+
+                  <input type="checkbox" checked={checkboxStates[d.id]} onChange={() => handleCheckboxChange(d.id, d.opportunity_name, d.email, d.member_id)} />
+
+                  <div className="grid grid-cols-4 gap-2">
+                    <img src={`http://localhost:3001/uploads/${d.photos}`} alt='hello' className=" rounded-[50%] h-[70px] w-[70px] border-[2px] border-[black] hover:border-[#070707] hover:border-[4px]" />
+
                     <div>
-                      <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.revised_budget))}</p>
-                      <p className="text-sm text-gray-600">{highlightText(String(d.create_date))}</p>
+                      <p className="">opportunity name : {highlightText(d.opportunity_name)}</p>
+                      <p className="text-sm font-semibold">opportunity provider : {highlightText(d.opportunity_provider)}</p>
                     </div>
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>
-                        <p className="text-xl font-bold text-gray-800 mb-2 ">{highlightText(d.opportunity_name)}</p>
-                        <p className="text-sm text-gray-600 mb-2">{highlightText(d.opportunity_provider)}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_start_date))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_end_date))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_problem_statement))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_solution))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_expected_work_zone))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_expected_work_time))}</p>
-                    
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_work_type))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_budget_available))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_estimate_budget))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.budget_currency))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_resource_volume))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.opportunity_status))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_code))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.revised_volume))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.revised_budget))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.create_date))}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">{highlightText(String(d.opportunity_type_id))}</p>
-                        <p className="text-sm text-gray-600">{highlightText(String(d.flag))}</p>
-                      </div>
+                    <div>
+                      <p className="text-xs font-semibold">start date : {highlightText(String(d.opportunity_start_date))}</p>
+                      <p className="text-xs  ">end date : {highlightText(String(d.opportunity_end_date))}</p>
                     </div>
-                    <div className="flex justify-end ">
-                        <img src={`http://localhost:3001/uploads/${d.photos}`} alt='hello' className="h-[120px]" />
-                      </div>
+                    <div>
+                      <p className="text-xs font-semibold">problem statement : {highlightText(String(d.opportunity_problem_statement))}</p>
+                      <p className="text-sm font-semibold">expected solution : {highlightText(String(d.opportunity_expected_solution))}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold">work zone : {highlightText(String(d.opportunity_expected_work_zone))}</p>
+                      <p className="text-sm font-semibold">work time : {highlightText(String(d.opportunity_expected_work_time))}</p>
+
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold">work type : {highlightText(String(d.opportunity_work_type))}</p>
+                      <p className="text-sm font-semibold">budget available : {highlightText(String(d.opportunity_budget_available))}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold">estimate budget : {highlightText(String(d.opportunity_estimate_budget))}</p>
+                      <p className="text-sm">budget currency : {highlightText(String(d.budget_currency))}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold">resource volume : {highlightText(String(d.opportunity_resource_volume))}</p>
+                      <p className="text-sm font-semibold">status : {highlightText(String(d.opportunity_status))}</p>
+                    </div>
+                    <div>
+                      {/* <p className="text-xs font-semibold">{highlightText(String(d.opportunity_code))}</p> */}
+                      <p className="text-sm font-semibold">revised volume : {highlightText(String(d.revised_volume))}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold">revised budget : {highlightText(String(d.revised_budget))}</p>
+                      <p className="text-sm font-semibold"> create date : {highlightText(String(d.create_date))}</p>
+                    </div>
+                    {/* <div> */}
+                      {/* <p className="text-xs font-semibold">{highlightText(String(d.opportunity_type_id))}</p> */}
+                      {/* <p className="text-sm font-semibold">{highlightText(String(d.flag))}</p> */}
+                    {/* </div> */}
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </>

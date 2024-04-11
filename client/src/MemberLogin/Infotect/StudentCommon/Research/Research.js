@@ -79,11 +79,11 @@ const Research = () => {
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={namex} />
                     </div>
                     <div class="md:col-span-2">
-                      <label for="full_name">Designation :</label>
+                      <label for="full_name">class / Designation :</label>
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={designation} />
                     </div>
                     <div class="md:col-span-2">
-                      <label for="email">Organization :</label>
+                      <label for="email">College / Organization :</label>
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={organization} />
                     </div>
                     <div class="md:col-span-2">

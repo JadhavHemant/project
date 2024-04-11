@@ -62,8 +62,10 @@ import MembercardView from '../MemberLogin/Infotect/User/MemberView/MembercardVi
 import Incentive from '../MemberLogin/Infotect/User/Calulateper/ResourcePage/Incentive/Incentive';
 import Update from '../MemberLogin/Infotect/User/Calulateper/ResourcePage/Incentive/Update';
 import AddgroupMember from '../MemberLogin/Infotect/User/Calulateper/AddgroupMember/AddgroupMember';
-import Footer from '../MemberLogin/Infotect/User/Footer/Footer';
-
+// import Footer from '../MemberLogin/Infotect/User/Footer/Footer';
+import NestedGroup from '../MemberLogin/Infotect/User/NestedGroup/NestedGroup';
+import GroupTables from '../MemberLogin/Infotect/User/NestedGroup/GroupTables';
+import RefrenceTableID from '../MemberLogin/Infotect/User/RefrenceTableID/RefrenceTableID';
 
 
 const MainCommon = () => {
@@ -93,7 +95,9 @@ const MainCommon = () => {
                      <Route path='incentive' element={<Incentive />} />
                      <Route path='incentiveupdate' element={<Update />} />
                      <Route path='memberaddgroup' element={<AddgroupMember />} />
-
+                     <Route path='groupmarge' element={<NestedGroup />} />
+                     <Route path='joingroup' element={<GroupTables />} />
+                     <Route path='network' element={<RefrenceTableID />} />
                   </Route>
 
 
@@ -147,7 +151,6 @@ const MainCommon = () => {
                      <Route path="intoppo" element={<IntrestOppor />} />
                      <Route path='resourcemaster' element={<Resourcemaster />} />
 
-                    
                   </Route>
                </Routes>
             </Router>

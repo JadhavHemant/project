@@ -158,7 +158,7 @@ const Ideation = () => {
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={student_name} />
                     </div>
                     <div class="md:col-span-2">
-                      <label for="full_name">Class</label>
+                      <label for="full_name">Class / designation</label>
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={student_class} />
                     </div>
                     <div class="md:col-span-2">
@@ -174,7 +174,7 @@ const Ideation = () => {
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={email_id} />
                     </div>
                     <div class="md:col-span-2">
-                      <label for="full_name">Organization</label>
+                      <label for="full_name">college / Organization</label>
                       <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={student_college} />
                     </div>
                     <div class="md:col-span-2">

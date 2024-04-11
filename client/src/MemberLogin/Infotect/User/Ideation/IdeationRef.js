@@ -92,7 +92,7 @@ const IdeationRef = () => {
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={referencename} />
                                         </div>
                                         <div class="md:col-span-2">
-                                            <label for="full_name">College</label>
+                                            <label for="full_name">College / Organization</label>
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={college} />
                                         </div>
                                         <div class="md:col-span-2">
@@ -100,7 +100,7 @@ const IdeationRef = () => {
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={discipline} />
                                         </div>
                                         <div class="md:col-span-2">
-                                            <label for="full_name">Class</label>
+                                            <label for="full_name">Class / Designation</label>
                                             <input type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" ref={cla_ss} />
                                         </div>
                                         <div class="md:col-span-2">

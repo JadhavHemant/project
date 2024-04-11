@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 const Greoupmember = () => {
+  const navigate = useNavigate();
 
   useEffect(() => {
     GetData();
@@ -22,8 +25,9 @@ const Greoupmember = () => {
   }
 
   const DeteteData = (id) => {
+    alert(id)
     axios({
-      url: `http://localhost:3001//api/group_member/${id}`,
+      url: `http://localhost:3001/api/group_member/${id}`,
       method: 'delete',
     }).then((res) => {
       console.log("done");
@@ -33,12 +37,18 @@ const Greoupmember = () => {
     })
 
   }
+  const AddGroupMembers = () => {
+    navigate("/user/memberaddgroup");
+  }
 
 
 
   return (
     <>
       <div class="max-w-5xl mx-auto pt-[30px] ">
+        <div className='p-2'>
+          <button className='bg-[#acacf5] p-2 border border-black rounded-[20px] hover:border-[#0a0a0a] hover:bg-[#8a8af5] ' onClick={() => AddGroupMembers()}>Create members</button>
+        </div>
         <div class="flex flex-col">
           <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <div class="inline-block min-w-full align-middle">
@@ -47,7 +57,7 @@ const Greoupmember = () => {
                   <thead class="bg-[#7f7ff5] dark:bg-[#8b8bf7]">
                     <tr>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                      member name
+                        member name
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
                         Member email
@@ -56,7 +66,7 @@ const Greoupmember = () => {
                         Phone Number
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
-                      transactionvalue
+                        transactionvalue
                       </th>
                       <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
                         Action
@@ -72,7 +82,7 @@ const Greoupmember = () => {
                           <td class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700  dark:text-gray-400">{d.phone}</td>
                           <td class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700  dark:text-gray-400">{d.transactionvalue}</td>
                           <td class="py-3 px-6 text-xs font-medium tracking-wider text-center text-gray-700  dark:text-gray-400">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-1 " onClick={() => DeteteData(d.incentive_id)}>Delete</button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-1 " onClick={() => DeteteData(d.id)}>Delete</button>
                           </td>
                         </tr>
                       ))
